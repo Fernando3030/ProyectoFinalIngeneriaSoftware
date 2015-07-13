@@ -16,9 +16,9 @@ import InterfazGrafica.CirculoAleatorio;
  			e.printStackTrace();
  		}
      
-    	// Login login= new Login();
-    	VentanaBienvenida ventana = new VentanaBienvenida();
-        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	 Login login= new Login();
+    	//VentanaBienvenida ventana = new VentanaBienvenida();
+        //ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	
      }
  }
