@@ -1,10 +1,14 @@
 package InterfazGrafica;
 
+import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.RenderingHints;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +21,12 @@ import javax.swing.SwingConstants;
 
 import java.awt.Font;
 
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+
 public class GestionAlumnos {
 
 	private JFrame frame;
@@ -25,7 +35,7 @@ public class GestionAlumnos {
 	 private JPanel panelSuperior;
 	 private JPanel panelCentro;
 	 private JLabel lblimagen, lblTitulo;
-	 private JLabel lblCodigo, lblNombre, lblApellido, lblCurso, lblFecha, lblUsuario, lblContra,lblBlanco, lblBlanco3;
+	 private JLabel lblCodigo, lblNombre, lblApellido, lblCurso, lblFecha, lblUsuario, lblContra;
 	 private JTextField txtNombre, txtCodigo, txtApellido, txtCurso, txtFecha, txtUsuario;
 	 private JPasswordField txtContra;
 	 private JPanel panelInferior;
@@ -43,6 +53,11 @@ public class GestionAlumnos {
 				}
 			}
 		});
+		 try {
+	 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+	 		} catch (Exception e) {
+	 			e.printStackTrace();
+	 		}
 	}
 
 	/**
@@ -51,78 +66,121 @@ public class GestionAlumnos {
 	public GestionAlumnos() {
 		frame = new JFrame("Alumnos");
 		miPanel= new JPanel();
-		miPanel.setLayout(new BorderLayout());
+		miPanel.setBackground(new Color(62,205,142));
 		panelSuperior= new JPanel();
-
-		panelSuperior.setLayout(new GridLayout(1,2,2,3));
-		panelSuperior.setBackground(new Color(62,205,142));
+		panelSuperior.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panelSuperior.setBounds(0, 0, 444, 131);
+		panelSuperior.setBackground(new Color(46, 139, 87));
 		lblimagen= new JLabel("");
+		lblimagen.setBounds(0, 0, 221, 131);
 		lblimagen.setHorizontalAlignment(SwingConstants.CENTER);
 		lblimagen.setIcon(new ImageIcon(GestionAlumnos.class.getResource("/Imagenes/userrrr.png")));
 		lblTitulo= new JLabel("Gestión de Alumno");
+		lblTitulo.setBounds(168, 0, 252, 131);
 		lblTitulo.setForeground(Color.WHITE);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		
 		panelCentro= new JPanel();
+		panelCentro.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		panelCentro.setBackground(new Color(255, 255, 255));
+		panelCentro.setBounds(0, 131, 444, 342);
 		
 		lblCodigo= new JLabel("Codigo");
 		lblCodigo.setForeground(new Color(0, 100, 0));
 		lblCodigo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCodigo.setBounds(23, 0, 84, 50);
+		lblCodigo.setBounds(24, 11, 84, 50);
 		lblNombre= new JLabel("Nombres"); 
 		lblNombre.setForeground(new Color(0, 100, 0));
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNombre.setBounds(23, 72, 84, 36);
+		lblNombre.setBounds(24, 83, 84, 36);
 		lblApellido = new JLabel("Apellidos");
 		lblApellido.setForeground(new Color(0, 100, 0));
 		lblApellido.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblApellido.setBounds(222, 69, 90, 42);
+		lblApellido.setBounds(232, 80, 90, 42);
 		lblCurso = new JLabel("Curso");
 		lblCurso.setForeground(new Color(0, 100, 0));
 		lblCurso.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblCurso.setBounds(23, 140, 71, 42);
+		lblCurso.setBounds(24, 151, 71, 42);
 		lblFecha= new JLabel("Fecha de Registro");
 		lblFecha.setForeground(new Color(0, 100, 0));
 		lblFecha.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblFecha.setBounds(222, 151, 148, 31);
+		lblFecha.setBounds(233, 162, 148, 31);
 		lblUsuario= new JLabel("Usuario");
 		lblUsuario.setForeground(new Color(0, 100, 0));
 		lblUsuario.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblUsuario.setBounds(23, 219, 103, 31);
+		lblUsuario.setBounds(24, 230, 103, 31);
 		lblContra = new JLabel("Contraseña");
 		lblContra.setForeground(new Color(0, 100, 0));
 		lblContra.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblContra.setBounds(222, 221, 96, 31);
-		lblBlanco = new JLabel();
-		lblBlanco.setBounds(222, 0, 222, 50);
-		lblBlanco3 = new JLabel();
+		lblContra.setBounds(233, 232, 96, 31);
 		
 		txtNombre = new JTextField();
-		txtNombre.setBounds(23, 104, 178, 36);
+		txtNombre.setForeground(new Color(46, 139, 87));
+		txtNombre.setFont(new Font("Tahoma", Font.BOLD, 12));
+		txtNombre.setBounds(24, 115, 178, 36);
 		txtCodigo = new JTextField();
-		txtCodigo.setBounds(23, 42, 178, 31);
+		txtCodigo.setFont(new Font("Tahoma", Font.BOLD, 12));
+		txtCodigo.setForeground(new Color(46, 139, 87));
+		txtCodigo.setBackground(Color.WHITE);
+		txtCodigo.setBounds(24, 53, 178, 31);
 		txtApellido = new JTextField();
-		txtApellido.setBounds(222, 104, 212, 36);
+		txtApellido.setFont(new Font("Tahoma", Font.BOLD, 12));
+		txtApellido.setForeground(new Color(46, 139, 87));
+		txtApellido.setBounds(233, 115, 190, 36);
 		txtCurso = new JTextField();
-		txtCurso.setBounds(23, 177, 178, 31);
+		txtCurso.setFont(new Font("Tahoma", Font.BOLD, 12));
+		txtCurso.setForeground(new Color(46, 139, 87));
+		txtCurso.setBounds(24, 188, 178, 31);
 		txtFecha = new JTextField();
-		txtFecha.setBounds(222, 177, 212, 31);
+		txtFecha.setForeground(new Color(46, 139, 87));
+		txtFecha.setFont(new Font("Tahoma", Font.BOLD, 12));
+		txtFecha.setBounds(233, 188, 190, 31);
 		txtUsuario = new JTextField();
-		txtUsuario.setBounds(23, 250, 178, 31);
+		txtUsuario.setForeground(new Color(46, 139, 87));
+		txtUsuario.setFont(new Font("Tahoma", Font.BOLD, 12));
+		txtUsuario.setBounds(24, 261, 178, 31);
 		txtContra = new JPasswordField();
-		txtContra.setBounds(222, 250, 212, 31);
+		txtContra.setForeground(new Color(46, 139, 87));
+		txtContra.setFont(new Font("Tahoma", Font.BOLD, 12));
+		txtContra.setBounds(233, 261, 190, 31);
 		
 		panelInferior= new JPanel();
-		panelInferior.setLayout(new GridLayout(2, 4, 2,3));
-		btnIngresar= new JButton("Ingresar");
-		btnRegistrar= new JButton("Registrar");
-		btnBuscar = new JButton("Buscar");
-		btnModificar = new JButton("Modificar");
-		btnEliminar = new JButton("Eliminar");
-		btnSalir = new JButton("Salir");
-		btnNuevo = new JButton("Nuevo");
+		panelInferior.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panelInferior.setBackground(new Color(46, 139, 87));
+		panelInferior.setBounds(0, 474, 444, 97);
+		btnIngresar= new JButton("");
+		btnIngresar.setToolTipText("Ingresar al Sistema");
+		btnIngresar.setIcon(new ImageIcon(GestionAlumnos.class.getResource("/Imagenes/Log-Out-icon.png")));
+		btnIngresar.setBackground(UIManager.getColor("Button.background"));
+		btnIngresar.setForeground(Color.WHITE);
+		btnIngresar.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnIngresar.setBounds(0, 28, 65, 43);
+		btnRegistrar= new JButton("");
+		btnRegistrar.setToolTipText("Guardar Alumno");
+		btnRegistrar.setIcon(new ImageIcon(GestionAlumnos.class.getResource("/Imagenes/save.png")));
+		btnRegistrar.setBounds(195, 28, 65, 43);
+		btnBuscar = new JButton("");
+		btnBuscar.setToolTipText("Buscar Alumno");
+		btnBuscar.setIcon(new ImageIcon(GestionAlumnos.class.getResource("/Imagenes/search-icon.png")));
+		btnBuscar.setBounds(321, 28, 58, 43);
+		btnModificar = new JButton("");
+		btnModificar.setToolTipText("Modificar Alumno");
+		btnModificar.setIcon(new ImageIcon(GestionAlumnos.class.getResource("/Imagenes/Actions-document-edit-icon.png")));
+		btnModificar.setBounds(66, 28, 65, 43);
+		btnEliminar = new JButton("");
+		btnEliminar.setToolTipText("Eliminar Alumno");
+		btnEliminar.setIcon(new ImageIcon(GestionAlumnos.class.getResource("/Imagenes/delete-file-icon.png")));
+		btnEliminar.setBounds(258, 28, 65, 43);
+		btnSalir = new JButton("");
+		btnSalir.setToolTipText("Salir");
+		btnSalir.setIcon(new ImageIcon(GestionAlumnos.class.getResource("/Imagenes/Apps-session-logout-icon.png")));
+		btnSalir.setBounds(377, 28, 65, 43);
+		btnNuevo = new JButton("");
+		btnNuevo.setToolTipText("Nuevo Alumno");
+		btnNuevo.setIcon(new ImageIcon(GestionAlumnos.class.getResource("/Imagenes/new.png")));
+		btnNuevo.setBounds(130, 28, 65, 43);
 		
 		
 		
@@ -135,13 +193,13 @@ public class GestionAlumnos {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		panelSuperior.setLayout(null);
 
 		panelSuperior.add(lblimagen);
 		panelSuperior.add(lblTitulo);
 		panelCentro.setLayout(null);
 		
 		panelCentro.add(lblCodigo);
-		panelCentro.add(lblBlanco);
 		panelCentro.add(txtCodigo);
 		panelCentro.add(lblNombre);
 		panelCentro.add(lblApellido);
@@ -155,6 +213,7 @@ public class GestionAlumnos {
 		panelCentro.add(lblContra);
 		panelCentro.add(txtUsuario);
 		panelCentro.add(txtContra);
+		panelInferior.setLayout(null);
 		
 		
 		panelInferior.add(btnIngresar);
@@ -164,12 +223,12 @@ public class GestionAlumnos {
 		panelInferior.add(btnModificar);
 		panelInferior.add(btnEliminar);
 		panelInferior.add(btnSalir);
-		panelInferior.add(lblBlanco3);
+		miPanel.setLayout(null);
 		
 		
-		miPanel.add(panelSuperior, BorderLayout.NORTH);
-		miPanel.add(panelCentro, BorderLayout.CENTER);
-		miPanel.add(panelInferior, BorderLayout.SOUTH);
+		miPanel.add(panelSuperior);
+		miPanel.add(panelCentro);
+		miPanel.add(panelInferior);
 		miFramePane.add(miPanel);
 	
 		
