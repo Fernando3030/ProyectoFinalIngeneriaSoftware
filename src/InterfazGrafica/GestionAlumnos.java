@@ -42,23 +42,7 @@ public class GestionAlumnos {
 	 private JButton btnIngresar, btnRegistrar, btnBuscar, btnModificar, btnEliminar, btnSalir, btnNuevo;
 
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GestionAlumnos window = new GestionAlumnos();
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		 try {
-	 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-	 		} catch (Exception e) {
-	 			e.printStackTrace();
-	 		}
-	}
+	
 
 	/**
 	 * Create the application.

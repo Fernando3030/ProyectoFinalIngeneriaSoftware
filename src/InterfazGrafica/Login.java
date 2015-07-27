@@ -10,9 +10,12 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -25,6 +28,12 @@ import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 
+
+
+
+
+import Clases.Conexion;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -36,9 +45,10 @@ public class Login {
     private Image imagen1;
     private Container miFramePane;
 
-   // private JLabel lblUsuario;
-    //private Image imageTextField;
-   // private Image imageTextField2;
+    Conexion con= new Conexion();
+    ResultSet resultado;
+    String superUser="";
+    String passAdmin="";
 
 
 public JPanel miPanel=new JPanel(){
@@ -149,6 +159,7 @@ private JPasswordField passwordField;
 		    lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
 		    
 		    txtUsuario = new JTextField();
+		    txtUsuario.setForeground(new Color(46, 139, 87));
 		    txtUsuario.setFont(new Font("Tahoma", Font.BOLD, 14));
 		    txtUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		    txtUsuario.setBounds(81, 125, 247, 48);
@@ -171,6 +182,7 @@ private JPasswordField passwordField;
 		    panel.add(lbluser);
 		    
 		    passwordField = new JPasswordField();
+		    passwordField.setForeground(new Color(46, 139, 87));
 		    passwordField.setFont(new Font("Tahoma", Font.BOLD, 14));
 		    passwordField.setHorizontalAlignment(SwingConstants.CENTER);
 		    passwordField.setBounds(83, 212, 247, 48);
@@ -182,6 +194,69 @@ private JPasswordField passwordField;
 		    panel.add(lblContra);
 		    
 		    JButton btnIngresar = new JButton("Ingresar");
+		    btnIngresar.addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent arg0) {
+		    		
+		    		  String password = String.valueOf(passwordField.getPassword()); //Convierte el valor de char del password a String
+		    		  try {
+						resultado= con.ExtraerAdmin();
+					
+						while(resultado.next())
+						{		
+							superUser = resultado.getString("usuario_admin");
+						    passAdmin = resultado.getString("contra_admin");
+						    System.out.println(superUser + " " + passAdmin);
+						}
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	                     if(((txtUsuario.getText()).equals(superUser))&&((password).equals(passAdmin)))
+	                     {
+	                           
+	                         frame.dispose();
+	                         System.out.println("ingreso");
+	                         //usuario="admin";
+	                         GestionAlumnos miFrame =  new GestionAlumnos();
+	                      
+	                     } 
+	                     else
+	                     {
+	                    	 System.out.println("error");
+	                     }
+	                     /*
+	                     else
+
+	                    	 if(archivoLogin.busquedaEnArbolUsuario(archivoLogin.raiz,textField1.getText(), false)==true && archivoLogin.busquedaEnArbolPassword(archivoLogin.raiz, password, false)== true)
+								{
+									
+									
+									if(archivoLogin.busquedaEnArbolAdmin(archivoLogin.raiz,textField1.getText(), "Administrador",false)==true)
+									{
+										 frame.dispose();
+										 ActivarMenu= true;
+										 usuario=textField1.getText();
+				                         RegistroUsuarios miFrame =  new RegistroUsuarios();
+				                        
+									}
+									else
+									{
+										
+										frame.dispose();
+										ActivarMenu= false;
+										 usuario=textField1.getText();
+										VentanaPrincipal ventana= new VentanaPrincipal();
+										
+									}
+									
+								}
+									 else
+								            JOptionPane.showMessageDialog(null, "¡Usuario no registrado!");
+											textField1.setText(null);
+											passwordField.setText(null);	
+											*/		
+		    	}
+		    });
 		    btnIngresar.setBackground(new Color(255,66,66));
 		    btnIngresar.setFont(new Font("Tahoma", Font.BOLD, 14));
 		    btnIngresar.setForeground(Color.WHITE);
@@ -189,6 +264,11 @@ private JPasswordField passwordField;
 		    panel.add(btnIngresar);
 		    
 		    JButton btnSalir = new JButton("Salir");
+		    btnSalir.addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent arg0) {
+		    		System.exit(0);
+		    	}
+		    });
 		    btnSalir.setForeground(Color.WHITE);
 		    btnSalir.setFont(new Font("Tahoma", Font.BOLD, 14));
 		    btnSalir.setBackground(new Color(255, 66, 66));

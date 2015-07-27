@@ -2,5 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/COMPUTRON/Documents/GitHub/ProyectoFinalIngeneriaSoftware/libs/postgresql-9.3-1103.jdbc3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/COMPUTRON/Documents/GitHub/ProyectoFinalIngeneriaSoftware/libs/postgresql-9.4-1201.jdbc4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
