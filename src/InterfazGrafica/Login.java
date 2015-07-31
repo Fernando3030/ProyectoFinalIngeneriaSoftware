@@ -216,8 +216,8 @@ private JPasswordField passwordField;
 	                           
 	                         frame.dispose();
 	                         System.out.println("ingreso");
-	                         //usuario="admin";
-	                         GestionAlumnos miFrame =  new GestionAlumnos();
+	                       VentanaBienvenida ventana = new VentanaBienvenida();
+	                       //  GestionAlumnos miFrame =  new GestionAlumnos();
 	                      
 	                     } 
 	                     else

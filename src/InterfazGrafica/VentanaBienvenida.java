@@ -58,19 +58,26 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
     private float posicionxy = 100; //coordenada de la esquina sup derecha del ciruculo
 
     /* array de botones circulares */
-    private JButtonCircle[] btn = new JButtonCircle[4];    
+    private JButtonCircle[] btn = new JButtonCircle[12];    
     /* coordenadas de los botones circulares */
-    private Point[] pB = { new Point(62,170),
-                           new Point(278,170) ,
+    private Point[] pB = { new Point(62,170), // boton dibujar con mouse
+                           new Point(278,170) , // boton dibujar con parametros
 
-                           new Point(170,64) ,
-                           new Point(170,278) ,
+                           new Point(170,64) , // boton dibujar aleatoriamente
+                          
+                           new Point(170,278) , // boton salir
+                           new Point(115 ,75), // boton documentos profesor
+                           new Point(225 ,75), // boton perfil estudiante
+                           new Point(115 ,265), // subir archivo otro autor
+                           new Point(225 ,265), // Reporte Actividades
+                           new Point(75 ,115), // documentos de otros autores
+                           new Point(265 ,115), // registro de alumnos
+                           new Point(75 ,225), // subir archivo del profesor
+                           new Point(265 ,225), // reporte de alumnos
 
-                           new Point(90,248) ,
-                           new Point(90,98) ,
 
-                           new Point(252,98) ,
-                           new Point(252,248) 
+
+                      
     };
 
     /* array de ImageIcon -> fotos para los botones */
@@ -79,6 +86,14 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
         new ImageIcon(getClass().getResource("/Imagenes/circulo3.png")),
         new ImageIcon(getClass().getResource("/Imagenes/circulo2.png")),
         new ImageIcon(getClass().getResource("/Imagenes/circulo4.png")),
+        new ImageIcon(getClass().getResource("/Imagenes/documentoProfesor.png")),
+        new ImageIcon(getClass().getResource("/Imagenes/profile2.png")),
+        new ImageIcon(getClass().getResource("/Imagenes/uploadDocumentosAutores.png")),
+        new ImageIcon(getClass().getResource("/Imagenes/reporteActividades.png")),
+        new ImageIcon(getClass().getResource("/Imagenes/documentoAutores.png")),
+        new ImageIcon(getClass().getResource("/Imagenes/adduser.png")),
+        new ImageIcon(getClass().getResource("/Imagenes/uploadDocumentosPropio.png")),
+        new ImageIcon(getClass().getResource("/Imagenes/reporteAlumnos.png")),
     
     };
 
@@ -87,10 +102,18 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
  */
     public enum Accion
     {
-        __1,
-        __2,
-        __3,
-        __4,
+        __1, //mouse
+        __2, // parametros
+        __3, // aleatorio
+        __4, // salida
+        __5, // documentosProfesor
+        __6, // profile estudiante
+        __7,  // subir documentos autores
+        __8, // reporte de actividades
+        __9,  // documentos de otros autores
+        __10, // agregar estudiante
+        __11, // subir archivo del profesor
+        __12 // reportes alumnos
       
     }
 
@@ -111,7 +134,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
         panel.addMouseListener(this);
 
         //añade los botones circulares al jpanel circular 
-        for( int i=0; i<4 ; i++)
+        for( int i=0; i<12 ; i++)
         {
             btn[i] = new JButtonCircle( pB[i] );
             btn[i].setVisible( false );
@@ -130,10 +153,51 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
                      {
                      btn[i].setToolTipText("Dibujar circuferencia de forma aleatoria"  );
                      }
+                	 else
 	            if(i== 3)
 	            {
 	            btn[i].setToolTipText("Salida"  );
 	            }
+	            else
+	            	 if(i== 4)
+	 	            {
+	 	            btn[i].setToolTipText("Documentos del profesor"  );
+	 	            }
+	            	 else
+		            	 if(i== 5)
+		 	            {
+		 	            btn[i].setToolTipText("Perfil del estudiante"  );
+		 	            }
+		            	 else
+			            	 if(i== 6)
+			 	            {
+			 	            btn[i].setToolTipText("Subir archivo de otros autores"  );
+			 	            }
+			            	 else
+				            	 if(i== 7)
+				 	            {
+				 	            btn[i].setToolTipText("Reporte de actividades"  );
+				 	            }
+				            	 else
+					            	 if(i== 8)
+					 	            {
+					 	            btn[i].setToolTipText("Documentos de otros autores"  );
+					 	            }
+					            	 else
+						            	 if(i== 9)
+						 	            {
+						 	            btn[i].setToolTipText("Agregar estudiante"  );
+						 	            }
+						            	 else
+							            	 if(i== 10)
+							 	            {
+							 	            btn[i].setToolTipText("Subir archivo propio"  );
+							 	            }
+							            	 else
+								            	 if(i== 11)
+								 	            {
+								 	            btn[i].setToolTipText("Reportes de Alumno"  );
+								 	            }
             btn[i].setFotografia( icono[i] );
             btn[i].addActionListener( this ); 
             btn[i].addMouseListener(this);
@@ -191,14 +255,14 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
         //muestra botones circulares si es necesario
         if( alto_ancho >= 294 )
         {            
-            for( int i=0; i<4 ; i++)
+            for( int i=0; i<12 ; i++)
             {            
                 btn[i].setVisible(true);            
             }
         }
         else if( alto_ancho < 288 ) //si el circulo es muy pequeño los oculta
         {
-            for( int i=0; i<4 ; i++)
+            for( int i=0; i<12 ; i++)
             {            
                 btn[i].setVisible(false);            
             }
@@ -311,6 +375,10 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
             	 JOptionPane.showMessageDialog(null, "Gracias por usar nuestro programa!!!");
                 System.exit(0);
                 break;  
+            case __10: 
+           	    GestionAlumnos alumno= new GestionAlumnos();
+           	    this.dispose();
+               break;  
             
 
        }
