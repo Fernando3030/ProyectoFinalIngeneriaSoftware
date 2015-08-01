@@ -29,6 +29,7 @@ import javax.swing.border.BevelBorder;
 import java.awt.FlowLayout;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import com.toedter.calendar.JDateChooser;
 
 public class GestionAlumnos {
 
@@ -39,7 +40,7 @@ public class GestionAlumnos {
 	 private JPanel panelCentro;
 	 private JLabel lblimagen, lblTitulo;
 	 private JLabel lblCodigo, lblNombre, lblApellido, lblCurso, lblFecha, lblUsuario, lblContra;
-	 private JTextField txtNombre, txtCodigo, txtApellido, txtCurso, txtFecha, txtUsuario;
+	 private JTextField txtNombre, txtCodigo, txtApellido, txtCurso, txtUsuario;
 	 private JPasswordField txtContra;
 	 private JButton btnRegistrar, btnBuscar, btnModificar, btnEliminar, btnSalir, btnNuevo;
 	 private JPanel panelDerecho;
@@ -119,10 +120,6 @@ public class GestionAlumnos {
 		txtCurso.setFont(new Font("Tahoma", Font.BOLD, 12));
 		txtCurso.setForeground(new Color(46, 139, 87));
 		txtCurso.setBounds(41, 261, 125, 31);
-		txtFecha = new JTextField();
-		txtFecha.setForeground(new Color(46, 139, 87));
-		txtFecha.setFont(new Font("Tahoma", Font.BOLD, 12));
-		txtFecha.setBounds(41, 207, 190, 31);
 		txtUsuario = new JTextField();
 		txtUsuario.setForeground(new Color(46, 139, 87));
 		txtUsuario.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -158,7 +155,6 @@ public class GestionAlumnos {
 		panelCentro.add(lblCurso);
 		panelCentro.add(lblFecha);
 		panelCentro.add(txtCurso);
-		panelCentro.add(txtFecha);
 		panelCentro.add(lblUsuario);
 		panelCentro.add(lblContra);
 		panelCentro.add(txtUsuario);
@@ -179,6 +175,11 @@ public class GestionAlumnos {
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"A", "B", "C", "D"}));
 		comboBox.setBounds(176, 262, 54, 31);
 		panelCentro.add(comboBox);
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setForeground(new Color(46, 139, 87));
+		dateChooser.setBounds(41, 207, 191, 31);
+		panelCentro.add(dateChooser);
 		miFramePane.add(miPanel);
 		
 		panelDerecho = new JPanel();
