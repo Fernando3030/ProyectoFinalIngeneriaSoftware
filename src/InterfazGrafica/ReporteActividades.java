@@ -32,8 +32,9 @@ import java.awt.FlowLayout;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
 
-public class ReporteAlumnos {
+public class ReporteActividades {
 
 	private JFrame frmReporteDeAlumnos;
 	 private Container miFramePane;
@@ -43,6 +44,7 @@ public class ReporteAlumnos {
 	 private JLabel lblDesde;
 	 private JRadioButton rbfecha;
 	 private JRadioButton rbTodos;
+	 private JRadioButton rbNombre;
 	 private ButtonGroup group;
 	 private JPanel panelSuperiorCentral;
 	private JPanel panelCentro ;
@@ -51,14 +53,16 @@ public class ReporteAlumnos {
 	private  JDateChooser JDateHasta;
 	private JPanel panelInferior;
 	private  JButton btnGenerar;
+	private JLabel lblNombre;
+	private JTextField txtNombre;
 	
 
 	/**
 	 * Create the application.
 	 */
-	public ReporteAlumnos() {
+	public ReporteActividades() {
 		frmReporteDeAlumnos = new JFrame("Alumnos");
-		frmReporteDeAlumnos.setTitle("Reporte de alumnos");
+		frmReporteDeAlumnos.setTitle("Reporte Actividades");
 		miPanel= new JPanel();
 		miPanel.setBackground(new Color(46, 139, 87));
 		panelSuperior= new JPanel();
@@ -68,7 +72,7 @@ public class ReporteAlumnos {
 		lblimagen.setBounds(0, 0, 221, 131);
 		lblimagen.setHorizontalAlignment(SwingConstants.CENTER);
 		lblimagen.setIcon(new ImageIcon(ReporteAlumnos.class.getResource("/Imagenes/repo.png")));
-		lblTitulo= new JLabel("Reportes Alumnos");
+		lblTitulo= new JLabel("Reportes Actividades");
 		lblTitulo.setBounds(168, 0, 348, 131);
 		lblTitulo.setForeground(Color.WHITE);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 32));
@@ -81,8 +85,10 @@ public class ReporteAlumnos {
 		 JDateHasta = new JDateChooser();
 		 JDateHasta.setForeground(new Color(46, 139, 87));
 		 
+		rbNombre = new JRadioButton("Nombre",  false);
 		rbfecha = new JRadioButton("Fecha", false);
 		rbTodos = new JRadioButton("Todos",  false);
+	
 		group = new ButtonGroup();
 	
 		
@@ -110,11 +116,11 @@ public class ReporteAlumnos {
 		
 
 		panelCentro.setBackground(Color.WHITE);
-		panelCentro.setBounds(20, 174, 478, 128);
+		panelCentro.setBounds(20, 174, 478, 159);
 		miPanel.add(panelCentro);
 		panelCentro.setLayout(null);
 		lblDesde= new JLabel("Desde:");
-		lblDesde.setBounds(10, 11, 65, 36);
+		lblDesde.setBounds(10, 50, 65, 28);
 		panelCentro.add(lblDesde);
 		lblDesde.setForeground(new Color(0, 100, 0));
 		lblDesde.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -122,20 +128,20 @@ public class ReporteAlumnos {
 		
 		lblHasta.setForeground(new Color(0, 100, 0));
 		lblHasta.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblHasta.setBounds(247, 19, 65, 28);
+		lblHasta.setBounds(247, 50, 65, 28);
 		panelCentro.add(lblHasta);
 		
 		
-		JDateDesde.setBounds(63, 19, 155, 28);
+		JDateDesde.setBounds(73, 50, 155, 28);
 		panelCentro.add(JDateDesde);
 		
 		
-		JDateHasta.setBounds(298, 19, 155, 28);
+		JDateHasta.setBounds(298, 50, 155, 28);
 		panelCentro.add(JDateHasta);
 		btnGenerar = new JButton("");
 		
 		panelInferior = new JPanel();
-		panelInferior.setBounds(141, 58, 200, 65);
+		panelInferior.setBounds(137, 89, 200, 65);
 		panelCentro.add(panelInferior);
 		panelInferior.setBackground(Color.WHITE);
 		
@@ -157,12 +163,27 @@ public class ReporteAlumnos {
 		btnSalir.setToolTipText("Salir");
 		panelInferior.add(btnSalir);
 		
+		lblNombre = new JLabel("Nombre:");
+		lblNombre.setForeground(new Color(0, 100, 0));
+		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNombre.setBounds(10, 11, 65, 28);
+		panelCentro.add(lblNombre);
+		
+		txtNombre = new JTextField();
+		txtNombre.setForeground(new Color(46, 139, 87));
+		txtNombre.setFont(new Font("Tahoma", Font.BOLD, 12));
+		txtNombre.setBounds(73, 13, 155, 28);
+		panelCentro.add(txtNombre);
+		txtNombre.setColumns(10);
+		
 		 panelSuperiorCentral = new JPanel();
 		panelSuperiorCentral.setBackground(Color.WHITE);
-		panelSuperiorCentral.setBounds(20, 137, 169, 38);
+		panelSuperiorCentral.setBounds(20, 137, 215, 38);
 		miPanel.add(panelSuperiorCentral);
 		panelSuperiorCentral.add(rbfecha);
 		panelSuperiorCentral.add(rbTodos);
+		panelSuperiorCentral.add(rbNombre);
+		group.add(rbNombre);
 		group.add(rbfecha);
 		group.add(rbTodos);
 		
@@ -171,10 +192,9 @@ public class ReporteAlumnos {
 		
 		
 		 frmReporteDeAlumnos.setVisible(true);
-		frmReporteDeAlumnos.setSize(528,342);
+		frmReporteDeAlumnos.setSize(531,373);
 		frmReporteDeAlumnos.setLocationRelativeTo(null);
         frmReporteDeAlumnos.setResizable(false); 
         frmReporteDeAlumnos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
-

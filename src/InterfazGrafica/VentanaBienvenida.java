@@ -372,15 +372,24 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
                 this.dispose();
                 break;    
             case __4: 
-            	 JOptionPane.showMessageDialog(null, "Gracias por usar nuestro programa!!!");
-                System.exit(0);
+            	Login login= new Login();
                 break;  
             case __6: 
            	   ProfileEstudiante profile = new ProfileEstudiante();
            	    this.dispose();
-               break;
+           	    
+            case __8: 
+           	    ReporteActividades reporteAc= new ReporteActividades();
+           	    this.dispose();
+               break;  
+               
             case __10: 
            	    GestionAlumnos alumno= new GestionAlumnos();
+           	    this.dispose();
+               break;  
+               
+            case __12: 
+           	    ReporteAlumnos reporteA= new ReporteAlumnos();
            	    this.dispose();
                break;  
             
