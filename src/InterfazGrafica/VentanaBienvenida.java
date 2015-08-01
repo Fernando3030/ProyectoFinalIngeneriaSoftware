@@ -42,7 +42,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
             g2.setColor( new Color(0,205,115) );
             Rectangle2D body = new Rectangle2D.Float(0, 0, (float) panel.getSize().getWidth(), (float) panel.getSize().getHeight() );
             g2.fill( body );
-            //circulo google
+            
             google_circle( g2 );        
         }
 	};
@@ -55,7 +55,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
     
     //
     private float alto_ancho = 200; //ancho de circulo
-    private float posicionxy = 100; //coordenada de la esquina sup derecha del ciruculo
+    private float posicionxy = 100; //coordenada de la esquina sup derecha del circulo
 
     /* array de botones circulares */
     private JButtonCircle[] btn = new JButtonCircle[12];    
@@ -98,7 +98,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
     };
 
     /**
- * ActionCommand de los 4 botones circulares
+ * ActionCommand de los 12 botones circulares
  */
     public enum Accion
     {
@@ -166,7 +166,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
 	            	 else
 		            	 if(i== 5)
 		 	            {
-		 	            btn[i].setToolTipText("Perfil del estudiante"  );
+		 	            btn[i].setToolTipText("Perfiles"  );
 		 	            }
 		            	 else
 			            	 if(i== 6)
@@ -289,7 +289,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
     }
 
    /**
- * Se hace uso de un Timerpara la animacion del google circle
+ * Se hace uso de un Timerpara la animacion 
  * cuando el raton esta dentro del JPanel se expande, si esta fuera decrece
  * la velocidad se mide en milisegundo, en este caso se hace uso de 5 milisegundos
  */
@@ -375,6 +375,10 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
             	 JOptionPane.showMessageDialog(null, "Gracias por usar nuestro programa!!!");
                 System.exit(0);
                 break;  
+            case __6: 
+           	   ProfileEstudiante profile = new ProfileEstudiante();
+           	    this.dispose();
+               break;
             case __10: 
            	    GestionAlumnos alumno= new GestionAlumnos();
            	    this.dispose();
