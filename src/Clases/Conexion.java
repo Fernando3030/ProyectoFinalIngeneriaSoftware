@@ -42,6 +42,7 @@ public class Conexion {
 	public ResultSet ExtraerAdmin() throws SQLException
 	{
 		sentencias= con.createStatement();
+	
 		String query= "select * from administrador where cod_admin like '001'";
 		resultado= sentencias.executeQuery(query);
 

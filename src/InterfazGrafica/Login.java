@@ -45,10 +45,11 @@ public class Login {
     private Image imagen1;
     private Container miFramePane;
 
-    Conexion con= new Conexion();
+   public static Conexion con= new Conexion();
     ResultSet resultado;
     String superUser="";
     String passAdmin="";
+    public static String usuario;
 
 
 public JPanel miPanel=new JPanel(){
@@ -215,6 +216,8 @@ private JPasswordField passwordField;
 	                     {
 	                           
 	                         frame.dispose();
+	                         usuario= superUser;
+	                         System.out.println("usuario es " + usuario);
 	                         System.out.println("ingreso");
 	                       VentanaBienvenida ventana = new VentanaBienvenida();
 	                       //  GestionAlumnos miFrame =  new GestionAlumnos();
