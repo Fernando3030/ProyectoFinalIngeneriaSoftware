@@ -10,8 +10,10 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.net.URL;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -32,6 +34,9 @@ import javax.swing.JButton;
 
 
 
+
+
+
 import Clases.Conexion;
 
 import java.awt.event.ActionListener;
@@ -47,9 +52,18 @@ public class Login {
 
    public static Conexion con= new Conexion();
     ResultSet resultado;
+    ResultSet resultado2;
     String superUser="";
     String passAdmin="";
+    String userAlumno="";
+    String contra="";
     public static String usuario;
+    public static String codigo;
+    public static String usuarioAlumno;
+    public static boolean ActivarMenu= true;
+	public Statement sentencias;
+	private boolean  banderaEncontrado= true;
+
 
 
 public JPanel miPanel=new JPanel(){
@@ -86,47 +100,19 @@ private JPasswordField passwordField;
 	 * Create the application.
 	 */
 	public Login() {
+		
+		try {
+			sentencias= con.con.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		   frame = new JFrame("Acceso al programa");
 		  frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/Imagenes/user.png")));
 		  fondo=frame.getClass().getResource("/Imagenes/fondo3.jpg");
 		
 		  imagen1=new ImageIcon(fondo).getImage();
-		  /*
-		  imageTextField = new ImageIcon( getClass().getResource("/Imagenes/usuario.png") ) .getImage();
-		  imageTextField2 = new ImageIcon( getClass().getResource("/Imagenes/pass.png") ) .getImage();
-		  
-		  txtUsuario = new JTextField()
-		  {
-			
-			  public void paint(Graphics g)
-			  {
-			   if ( isVisible() ) { //sobrescribiendo el componente
-			    super.paint(g);
-			    g.drawImage( imageTextField, 1,1, null); // dibujo la imagen
-			   }
-			  }
-		  };
-		  
-		  txtPassword = new JPasswordField() {
-			
-			  public void paint(Graphics g)
-			  {
-			   if ( isVisible() ) { //sobrescribiendo el componente
-			    super.paint(g);
-			    g.drawImage( imageTextField2, 1,1, null); // dibujo la imagen
-			   }
-			  }
-		  };
-		  txtUsuario.setFont(new Font("Tahoma", Font.BOLD, 12));
-		  txtUsuario.setToolTipText("Ingrese el usuario");
-		  txtUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		
-	      
-	      lblUsuario = new JLabel("Usuario:");
-	      lblUsuario.setForeground(Color.WHITE);
-	      lblUsuario.setFont(new Font("Bookman Old Style", Font.PLAIN, 22));
-	      lblUsuario.setBounds(274, 64, 101, 32);
-	      */
 	     
 	      miPanel.setLayout(null);
 	      panel.setBackground(Color.WHITE);
@@ -206,7 +192,8 @@ private JPasswordField passwordField;
 						{		
 							superUser = resultado.getString("usuario_admin");
 						    passAdmin = resultado.getString("contra_admin");
-						    System.out.println(superUser + " " + passAdmin);
+						    codigo= resultado.getString("cod_admin");
+						  
 						}
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
@@ -217,47 +204,45 @@ private JPasswordField passwordField;
 	                           
 	                         frame.dispose();
 	                         usuario= superUser;
-	                         System.out.println("usuario es " + usuario);
-	                         System.out.println("ingreso");
-	                       VentanaBienvenida ventana = new VentanaBienvenida();
-	                       //  GestionAlumnos miFrame =  new GestionAlumnos();
+	                         ActivarMenu= true;
+	                         banderaEncontrado= false;
+	                         usuarioAlumno="";
+	                        VentanaBienvenida ventana = new VentanaBienvenida();
+	                        
+	                      
 	                      
 	                     } 
 	                     else
 	                     {
-	                    	 System.out.println("error");
+	                    	 try {
+	                    		 
+	                    		 PreparedStatement query= con.con.prepareStatement("SELECT * FROM alumnos WHERE usuario_alumno=? AND contra_alumno=?"); 
+	                    		 query.setString(1, txtUsuario.getText()); 
+	                    		 query.setString(2, password); 
+	                    		 resultado = query.executeQuery();
+								
+								while(resultado.next())
+		 						{	
+								     frame.dispose();
+									 ActivarMenu= false;
+									 banderaEncontrado= false;
+									 usuarioAlumno= txtUsuario.getText();
+									 codigo="";
+									 VentanaBienvenida ventana = new VentanaBienvenida();
+					                   
+		 						}
+							} catch (SQLException e) {
+								System.out.println(e);
+								e.printStackTrace();
+							}
 	                     }
-	                     /*
-	                     else
-
-	                    	 if(archivoLogin.busquedaEnArbolUsuario(archivoLogin.raiz,textField1.getText(), false)==true && archivoLogin.busquedaEnArbolPassword(archivoLogin.raiz, password, false)== true)
-								{
-									
-									
-									if(archivoLogin.busquedaEnArbolAdmin(archivoLogin.raiz,textField1.getText(), "Administrador",false)==true)
-									{
-										 frame.dispose();
-										 ActivarMenu= true;
-										 usuario=textField1.getText();
-				                         RegistroUsuarios miFrame =  new RegistroUsuarios();
-				                        
-									}
-									else
-									{
-										
-										frame.dispose();
-										ActivarMenu= false;
-										 usuario=textField1.getText();
-										VentanaPrincipal ventana= new VentanaPrincipal();
-										
-									}
-									
-								}
-									 else
-								            JOptionPane.showMessageDialog(null, "¡Usuario no registrado!");
-											textField1.setText(null);
-											passwordField.setText(null);	
-											*/		
+	                     if(banderaEncontrado)
+	                     {
+	                    	 JOptionPane.showMessageDialog(null,"Usuario no registrado");
+	                    	 txtUsuario.setText("");
+	                    	 passwordField.setText("");
+	                    	 txtUsuario.requestFocus();
+	                     }
 		    	}
 		    });
 		    btnIngresar.setBackground(new Color(255,66,66));

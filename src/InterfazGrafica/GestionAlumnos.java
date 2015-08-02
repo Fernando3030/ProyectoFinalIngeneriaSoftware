@@ -30,11 +30,13 @@ import java.awt.Font;
 
 
 
+
 import javax.swing.border.EtchedBorder;
 
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+
 
 
 
@@ -49,6 +51,8 @@ import com.toedter.calendar.JDateChooser;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -178,6 +182,34 @@ public class GestionAlumnos {
 		txtCurso.setForeground(new Color(46, 139, 87));
 		txtCurso.setBounds(41, 261, 125, 31);
 		txtUsuario = new JTextField();
+		txtUsuario.addFocusListener(new FocusAdapter() {
+        	@Override
+        	public void focusLost(FocusEvent e) {
+        		String user=txtUsuario.getText();
+        		
+        		if (!txtUsuario.getText().equals(""))
+				{
+        			 try {
+						resultado=sentencias.executeQuery("SELECT * FROM alumnos WHERE usuario_alumno='"+user+"'");
+						 while(resultado.next())
+							{	
+					        	JOptionPane.showMessageDialog(null,"El usuario  "+ txtUsuario.getText() +", YA SE ENCUENTRA REGISTRADO EN EL SISTEMA","ERROR DE DATOS",JOptionPane.PLAIN_MESSAGE);
+								txtUsuario.setText("");
+								txtUsuario.requestFocus();
+							}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				     
+				       
+			
+					
+						
+						
+				}
+        	}
+        });
 		txtUsuario.setEnabled(false);
 		txtUsuario.setForeground(new Color(46, 139, 87));
 		txtUsuario.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -532,10 +564,10 @@ public class GestionAlumnos {
 	                    	 lbl5.setIcon(new ImageIcon(GestionAlumnos.class.getResource("/Imagenes/Accept-icon.png")));
 	                    	 lbl6.setIcon(new ImageIcon(GestionAlumnos.class.getResource("/Imagenes/Accept-icon.png")));
 	                    	 lbl7.setIcon(new ImageIcon(GestionAlumnos.class.getResource("/Imagenes/Accept-icon.png")));
-	                    	System.out.println("usuario nuevo " + Login.usuario);
+	                    	
 	                    	 String query= "select cod_admin from administrador where usuario_admin ='"+Login.usuario+"'";
-	                    	 System.out.println("imprimir query " + query);
-	                 		
+	                 
+	                    	 
 							try {
 								
 								resultado = sentencias.executeQuery(query);

@@ -94,6 +94,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
         new ImageIcon(getClass().getResource("/Imagenes/adduser.png")),
         new ImageIcon(getClass().getResource("/Imagenes/uploadDocumentosPropio.png")),
         new ImageIcon(getClass().getResource("/Imagenes/reporteAlumnos.png")),
+        
     
     };
 
@@ -142,6 +143,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
             if(i== 0)
             {
             btn[i].setToolTipText("Dibujar circuferencia con mouse"  );
+           
             }
             else
             	 if(i== 1)
@@ -172,11 +174,16 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
 			            	 if(i== 6)
 			 	            {
 			 	            btn[i].setToolTipText("Subir archivo de otros autores"  );
+			 	             btn[i].setEnabled(Login.ActivarMenu);
+			 	          
+			 	          
 			 	            }
 			            	 else
 				            	 if(i== 7)
 				 	            {
 				 	            btn[i].setToolTipText("Reporte de actividades"  );
+				 	           btn[i].setEnabled(Login.ActivarMenu);
+				 	         
 				 	            }
 				            	 else
 					            	 if(i== 8)
@@ -187,16 +194,23 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
 						            	 if(i== 9)
 						 	            {
 						 	            btn[i].setToolTipText("Agregar estudiante"  );
+						 	           btn[i].setEnabled(Login.ActivarMenu);
+						 	        
 						 	            }
 						            	 else
 							            	 if(i== 10)
 							 	            {
 							 	            btn[i].setToolTipText("Subir archivo propio"  );
+							 	           btn[i].setEnabled(Login.ActivarMenu);
+							 	          
 							 	            }
 							            	 else
 								            	 if(i== 11)
 								 	            {
 								 	            btn[i].setToolTipText("Reportes de Alumno"  );
+								 	           btn[i].setEnabled(Login.ActivarMenu);
+								 	         
+								 	      
 								 	            }
             btn[i].setFotografia( icono[i] );
             btn[i].addActionListener( this ); 
@@ -257,7 +271,8 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
         {            
             for( int i=0; i<12 ; i++)
             {            
-                btn[i].setVisible(true);            
+                btn[i].setVisible(true);     
+              
             }
         }
         else if( alto_ancho < 288 ) //si el circulo es muy pequeño los oculta
@@ -373,11 +388,12 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
                 break;    
             case __4: 
             	Login login= new Login();
+            	this.dispose();
                 break;  
             case __6: 
            	   ProfileEstudiante profile = new ProfileEstudiante();
            	    this.dispose();
-           	    
+           	    break;
             case __8: 
            	    ReporteActividades reporteAc= new ReporteActividades();
            	    this.dispose();

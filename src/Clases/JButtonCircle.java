@@ -39,6 +39,7 @@ public class JButtonCircle extends JButton {
     public void setFotografia( ImageIcon icono )
     {
         this.image = ((ImageIcon)icono).getImage();
+        
     }
 
     public Image getFotografia()
