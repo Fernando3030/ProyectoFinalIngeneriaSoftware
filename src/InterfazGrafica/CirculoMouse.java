@@ -17,6 +17,9 @@ import java.awt.event.MouseMotionListener;
 
 
 
+
+
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -29,10 +32,16 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Clases.Circulo;
+import Clases.Validaciones;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.SwingConstants;
 
@@ -79,6 +88,10 @@ import java.awt.Font;
      private boolean banderaManoA= true; 
      private boolean banderaDibujo= true;
      private boolean banderaCancelar= true;
+     
+  	private  Statement sentencias;
+ 	private ResultSet resultado;
+ 	Validaciones validacion= new Validaciones();
 
 
 
@@ -86,6 +99,13 @@ import java.awt.Font;
    
    public CirculoMouse(){
         super("Dibujar Circulo con el Mouse");
+        
+        try {
+			sentencias= Login.con.con.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
          contenedor = getContentPane();
          controlador1= new MouseClick();
          controlador2 = new MouseAlzado();
@@ -401,6 +421,34 @@ import java.awt.Font;
          
         calculos.setText(": : Calculos : :" + "\n" + radio2 + "\n" + diametro + 
                 "\n" + area + "\n" + circunferencia);
+        
+        
+        if(Login.esAdmin)  // si es admin
+        {
+       	  //no guardo nada en el sistema :p
+        }
+        else
+        {
+       	 double r= circulo.calcularDiametro(radio) / 2;
+            double d= circulo.calcularDiametro(radio);
+            double a= circulo.calcularArea(radio);
+            double c= circulo.calcularCircunferencia(radio);
+       	String codigo= validacion.codigoAleatorio(8);
+       	Date now = new Date(System.currentTimeMillis());
+           SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+           SimpleDateFormat hour = new SimpleDateFormat("HH:mm:ss");
+           
+           
+             try {
+            	 
+            	 sentencias.executeUpdate("INSERT INTO circulomouse VALUES ('"+codigo+"',"+"'"+r+"',"+"'"+d+"',"+"'"+a+"',"+"'"+c+"',"+"'"+date.format(now)+"',"+"'"+hour.format(now)+"',"+"'"+Login.usuarioAlumno+"')");
+              }
+              catch (SQLException ex) {
+                  JOptionPane.showMessageDialog(null,"Hubo un Problema al Intentar Insertar el Registro");
+                  System.out.println(ex);
+              }
+       	 
+        }
      }
      
      public double distanciaEntreDosPuntos(int x1, int y1, int x2, int y2)

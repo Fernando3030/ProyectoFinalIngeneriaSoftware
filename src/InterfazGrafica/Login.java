@@ -63,6 +63,7 @@ public class Login {
     public static boolean ActivarMenu= true;
 	public Statement sentencias;
 	private boolean  banderaEncontrado= true;
+	public static boolean esAdmin= true;
 
 
 
@@ -193,6 +194,7 @@ private JPasswordField passwordField;
 							superUser = resultado.getString("usuario_admin");
 						    passAdmin = resultado.getString("contra_admin");
 						    codigo= resultado.getString("cod_admin");
+						    
 						  
 						}
 						} catch (SQLException e) {
@@ -207,6 +209,9 @@ private JPasswordField passwordField;
 	                         ActivarMenu= true;
 	                         banderaEncontrado= false;
 	                         usuarioAlumno="";
+	                         esAdmin= true;
+	                         usuarioAlumno="";
+	                      
 	                        VentanaBienvenida ventana = new VentanaBienvenida();
 	                        
 	                      
@@ -228,6 +233,7 @@ private JPasswordField passwordField;
 									 banderaEncontrado= false;
 									 usuarioAlumno= txtUsuario.getText();
 									 codigo="";
+									 esAdmin= false;
 									 VentanaBienvenida ventana = new VentanaBienvenida();
 					                   
 		 						}

@@ -208,6 +208,7 @@ public class ProfileEstudiante {
 		panelCentro.add(txtContra);
 
 		miPanel.setLayout(null);
+		
 		if(Login.codigo.equals("001")) // esto significa que es el admin
 		{
 			 try {

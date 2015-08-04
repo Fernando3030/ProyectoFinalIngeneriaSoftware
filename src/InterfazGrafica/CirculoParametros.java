@@ -16,10 +16,16 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Clases.Circulo;
+import Clases.Validaciones;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
  
  public class CirculoParametros extends JFrame{
      private Circulo circulo;
@@ -33,9 +39,18 @@ import java.text.DecimalFormat;
      private JButton btnSalir;
      private JLabel lblIngreso;
      private JTextField txtIngreso;
+ 	private  Statement sentencias;
+	private ResultSet resultado;
+	Validaciones validacion= new Validaciones();
    
    public CirculoParametros(){
         super("Dibujar Circulo con Parámetros");
+        try {
+			sentencias= Login.con.con.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
          contenedor = getContentPane();
         setSize(500, 600);
          contenedor.setBackground(Color.WHITE);
@@ -170,5 +185,33 @@ import java.text.DecimalFormat;
          
         calculos.setText(": : Calculos : :" + "\n" + radio2 + "\n" + diametro + 
                 "\n" + area + "\n" + circunferencia);
+        
+        
+        if(Login.esAdmin)  // si es admin
+        {
+       	  //no guardo nada en el sistema :p
+        }
+        else
+        {
+       	 double r= circulo.calcularDiametro(radio) / 2;
+            double d= circulo.calcularDiametro(radio);
+            double a= circulo.calcularArea(radio);
+            double c= circulo.calcularCircunferencia(radio);
+       	String codigo= validacion.codigoAleatorio(8);
+       	Date now = new Date(System.currentTimeMillis());
+           SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+           SimpleDateFormat hour = new SimpleDateFormat("HH:mm:ss");
+           
+           
+             try {
+            	 
+            	 sentencias.executeUpdate("INSERT INTO circuloparametros VALUES ('"+codigo+"',"+"'"+r+"',"+"'"+d+"',"+"'"+a+"',"+"'"+c+"',"+"'"+date.format(now)+"',"+"'"+hour.format(now)+"',"+"'"+Login.usuarioAlumno+"')");
+              }
+              catch (SQLException ex) {
+                  JOptionPane.showMessageDialog(null,"Hubo un Problema al Intentar Insertar el Registro");
+                  System.out.println(ex);
+              }
+       	 
+        }
      }
   }
