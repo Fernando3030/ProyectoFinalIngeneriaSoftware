@@ -18,6 +18,9 @@ import java.awt.Container;
 
 
 
+
+
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -34,6 +37,9 @@ import java.awt.Font;
 
 
 import java.awt.FlowLayout;
+
+
+
 
 
 
@@ -96,6 +102,7 @@ public class SubirArchivoAutores {
 	ResultSet resultado;
 	private boolean camposVacios=true;
 	private String nombreRealArchivo;
+	private String libroBuscado;
 	/**
 	 * Create the application.
 	 */
@@ -135,14 +142,97 @@ public class SubirArchivoAutores {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				boolean banderaEncontrado= true;
 				
-				 btnNuevo.setEnabled(true);
-	        	   btnGenerar.setEnabled(true);
-	        	   btnModificar.setEnabled(false);
-			    	banderaModificar= true;
+				libroBuscado= JOptionPane.showInputDialog("Ingrese el nombre código del libro a Buscar: ");
+				if(libroBuscado != null)
+            	{
+					String letra;
+					
+					try {
+					       
+				        resultado=sentencias.executeQuery("SELECT * FROM archivosautores WHERE cod_arch_autores='"+libroBuscado+"'");
+				     
+				        while(resultado.next())
+						{	
+				        	 btnNuevo.setEnabled(true);
+				        	   btnGenerar.setEnabled(true);
+				        	   btnModificar.setEnabled(false);
+						    	banderaModificar= true;
+				        	banderaEncontrado= false;
+				        	txtURL.setText(resultado.getString(6));
+				        	txtNombreArchivo.setText(resultado.getString(3));
+				        	txtAutor.setText(resultado.getString(4));
+				        	txtNombreArchivo.setEnabled(true);
+				        	txtAutor.setEnabled(true);
+						}
+				        if(banderaEncontrado)
+				        {
+				        	 JOptionPane.showMessageDialog(null,"Libro no registrado");
+				        }
+					}
+					 catch(SQLException ex) {
+					       
+					        System.out.println(ex);
+					     }
+            	}
+				else
+				{
+					 JOptionPane.showMessageDialog(null,"Por favor ingrese un código de libro válido");
+				}
+				
+				
+				
 			}
 		});
 		btnBorrar = new JButton("");
+		btnBorrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				libroBuscado= JOptionPane.showInputDialog("Ingrese el código del libro a Eliminar: ");
+				if(libroBuscado != null)
+            	{
+					 lbl1.setIcon(new ImageIcon(SubirArchivoAutores.class.getResource("")));
+		             	
+	            	 lbl2.setIcon(new ImageIcon(SubirArchivoAutores.class.getResource("")));
+	            	 txtURL.setText("");
+	            	 txtNombreArchivo.setText("");
+	            	 txtAutor.setText("");
+	            	 banderaModificar=false;
+	            	 txtNombreArchivo.setEnabled(false);
+	            	 txtAutor.setEnabled(false);
+	            	 try {
+	            		 resultado=sentencias.executeQuery("SELECT * FROM archivosautores WHERE cod_arch_autores='"+libroBuscado+"'");
+	            		  while(resultado.next())
+							{	
+	            			  String fichero2= resultado.getString(6);
+	            			  System.out.println(fichero2);
+	            			  File fichero = new File(fichero2);
+		        	            if (fichero.delete())
+		        	            {
+		        	         System.out.println("El fichero ha sido borrado satisfactoriamente");
+		        	            }
+		        	         else
+		        	         {
+		        	          System.out.println("El fichero no puede ser borrado");
+		        	         }
+		        	            
+	            			  sentencias.executeUpdate("DELETE FROM archivosautores WHERE cod_arch_autores='"+libroBuscado+"'");
+		        	        
+							}
+	            		  
+	        	         
+	        	       }
+	        	       catch (SQLException ex) {
+	        	         
+	        	       }
+            	}
+				else
+				{
+			         JOptionPane.showMessageDialog(null,"No puede ingresar un campo vacío");
+				}
+			}
+		});
 		btnSalir = new JButton("");
 		btnBusar = new JButton("Buscar");
 		btnBusar.setEnabled(false);
@@ -329,7 +419,7 @@ public class SubirArchivoAutores {
 	                 	
 	                         try {
 	                        	 
-	                        	 sentencias.executeUpdate("INSERT INTO archivosautores VALUES ('"+codigo+"',"+"'"+date.format(now)+"',"+"'"+nombre+"',"+"'"+autor+"',"+"'"+resultado.getString("cod_admin")+"',"+"'"+urlLibro+"',"+"'"+nombreRealArchivo+"')");
+	                        	 sentencias.executeUpdate("INSERT INTO archivosautores VALUES ('"+codigo+"',"+"'"+date.format(now)+"',"+"'"+nombre+"',"+"'"+autor+"',"+"'"+resultado.getString("cod_admin")+"',"+"'"+destino+"',"+"'"+nombreRealArchivo+"')");
 	                          }
 	                          catch (SQLException ex) {
 	                              JOptionPane.showMessageDialog(null,"Hubo un Problema al Intentar Insertar el Registro");
@@ -346,6 +436,7 @@ public class SubirArchivoAutores {
 	  		             	 txtNombreArchivo.setEnabled(false);
 	  	                	 txtAutor.setEnabled(false);
 	  	                	 btnBusar.setEnabled(false);
+	  	                	 btnModificar.setEnabled(true);
 	  		          		
 	  		
 	  		              	 JOptionPane.showMessageDialog(null, "Datos Guardado con Exito");
@@ -374,8 +465,9 @@ public class SubirArchivoAutores {
 		                    	
 		                    	 
 		                    	 try {
-		                             sentencias.executeUpdate("UPDATE archivosautores SET fechaS_archivo='"+date.format(now)+"',"+"nombreArchivo_autores='"+nombre+"',"+"autorLibro='"+autor+"'");
-		                           }
+		                             sentencias.executeUpdate("UPDATE archivosautores SET fecha_archivo='"+date.format(now)+"',"+"nombrearchivo_autores='"+nombre+"',"+"autor_libro='"+autor+"'"+" WHERE cod_arch_autores='"+libroBuscado+"'");
+		                             libroBuscado=""; 
+		                    	 }
 		                           catch (SQLException ex) {
 		                               JOptionPane.showMessageDialog(null,"Hubo un Problema al Intentar Modificar el Registro");
 		                               System.out.println(ex);
@@ -421,7 +513,7 @@ public class SubirArchivoAutores {
          		btnNuevo.setEnabled(false);
          		btnBusar.setEnabled(true);
          	
-         		btnModificar.setEnabled(false);
+         		btnModificar.setEnabled(true);
          		
          		 txtNombreArchivo.setEnabled(true);
             	 txtAutor.setEnabled(true);

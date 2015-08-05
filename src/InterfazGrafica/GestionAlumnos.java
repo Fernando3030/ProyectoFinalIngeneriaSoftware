@@ -628,7 +628,7 @@ public class GestionAlumnos {
 		                           }
 		                           catch (SQLException ex) {
 		                               JOptionPane.showMessageDialog(null,"Hubo un Problema al Intentar Modificar el Registro");
-		                               System.out.println(ex);
+		                              
 		                           }
 
 	              		  
