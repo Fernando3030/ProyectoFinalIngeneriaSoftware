@@ -394,6 +394,10 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
            	   ProfileEstudiante profile = new ProfileEstudiante();
            	    this.dispose();
            	    break;
+            case __7: 
+            	   SubirArchivoAutores subir = new SubirArchivoAutores();
+            	    this.dispose();
+            	    break;
             case __8: 
            	    ReporteActividades reporteAc= new ReporteActividades();
            	    this.dispose();

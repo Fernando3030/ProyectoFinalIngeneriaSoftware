@@ -57,7 +57,7 @@ public class ReporteAlumnos {
 	 * Create the application.
 	 */
 	public ReporteAlumnos() {
-		frmReporteDeAlumnos = new JFrame("Alumnos");
+		frmReporteDeAlumnos = new JFrame();
 		frmReporteDeAlumnos.setTitle("Reporte de alumnos");
 		miPanel= new JPanel();
 		miPanel.setBackground(new Color(46, 139, 87));

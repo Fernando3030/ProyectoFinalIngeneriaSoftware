@@ -36,7 +36,7 @@ import javax.swing.JTextField;
 
 public class ReporteActividades {
 
-	private JFrame frmReporteDeAlumnos;
+	private JFrame frame;
 	 private Container miFramePane;
 	 private JPanel miPanel;
 	 private JPanel panelSuperior;
@@ -61,8 +61,8 @@ public class ReporteActividades {
 	 * Create the application.
 	 */
 	public ReporteActividades() {
-		frmReporteDeAlumnos = new JFrame("Alumnos");
-		frmReporteDeAlumnos.setTitle("Reporte Actividades");
+		frame = new JFrame();
+		frame.setTitle("Reporte Actividades");
 		miPanel= new JPanel();
 		miPanel.setBackground(new Color(46, 139, 87));
 		panelSuperior= new JPanel();
@@ -95,7 +95,7 @@ public class ReporteActividades {
 		
 		
 		
-		 miFramePane = frmReporteDeAlumnos.getContentPane();
+		 miFramePane = frame.getContentPane();
 		
 		initialize();
 	}
@@ -155,7 +155,7 @@ public class ReporteActividades {
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				frmReporteDeAlumnos.dispose();
+				frame.dispose();
 				VentanaBienvenida ventana= new VentanaBienvenida();
 			}
 		});
@@ -191,10 +191,10 @@ public class ReporteActividades {
 	
 		
 		
-		 frmReporteDeAlumnos.setVisible(true);
-		frmReporteDeAlumnos.setSize(531,373);
-		frmReporteDeAlumnos.setLocationRelativeTo(null);
-        frmReporteDeAlumnos.setResizable(false); 
-        frmReporteDeAlumnos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		 frame.setVisible(true);
+		frame.setSize(531,373);
+		frame.setLocationRelativeTo(null);
+        frame.setResizable(false); 
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

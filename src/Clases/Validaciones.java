@@ -1,5 +1,16 @@
 package Clases;
 
+
+import java.io.IOException;
+import java.io.File; 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
+import java.nio.file.CopyOption;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -56,6 +67,21 @@ public class Validaciones {
 		            return false;
 		        }
 		        return true;
+		    }
+		 
+		  public void copyFile(File s, File t)
+		    {
+		        try{
+		              FileChannel in = (new FileInputStream(s)).getChannel();
+		              FileChannel out = (new FileOutputStream(t)).getChannel();
+		              in.transferTo(0, s.length(), out);
+		              in.close();
+		              out.close();
+		        }
+		        catch(Exception e)
+		        {
+		            System.out.println(e);
+		        }
 		    }
 
 }
