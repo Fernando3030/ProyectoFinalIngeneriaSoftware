@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="C:/Users/COMPUTRON/Documents/GitHub/ProyectoFinalIngeneriaSoftware/libs/jgoodies-common-1.2.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/COMPUTRON/Documents/GitHub/ProyectoFinalIngeneriaSoftware/libs/jgoodies-looks-2.4.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/COMPUTRON/Documents/GitHub/ProyectoFinalIngeneriaSoftware/libs/junit-4.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/COMPUTRON/Documents/GitHub/ProyectoFinalIngeneriaSoftware/libs/pdf-renderer-1.0.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -7,21 +7,6 @@ import java.awt.Container;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -29,35 +14,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
-import javax.swing.JRadioButton;
+
 import javax.swing.SwingConstants;
 
 import java.awt.Font;
 
 
 
-import java.awt.FlowLayout;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import Clases.Validaciones;
 
-import com.toedter.calendar.JDateChooser;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -147,7 +113,7 @@ public class SubirArchivoAutores {
 				libroBuscado= JOptionPane.showInputDialog("Ingrese el nombre código del libro a Buscar: ");
 				if(libroBuscado != null)
             	{
-					String letra;
+					
 					
 					try {
 					       
@@ -387,7 +353,7 @@ public class SubirArchivoAutores {
 	              	   if(banderaNombre && banderaAutor && banderaUrl)
 	                     {
 	              		   /** creamos la carpeta Libros donde se guardaran nuestros archivos .pdf**/
-	              		    File directorio=new File("Libros");
+	              		    File directorio=new File("Libros de otros autores");
 	                        directorio.mkdir(); 
 	                        String direccion= directorio.getAbsolutePath();
 	                         

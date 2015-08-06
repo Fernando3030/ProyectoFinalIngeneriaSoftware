@@ -390,6 +390,11 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
             	Login login= new Login();
             	this.dispose();
                 break;  
+                
+            case __5: 
+            	LeerDocumentoProfesor leer= new LeerDocumentoProfesor();
+            	this.dispose();
+                break;  
             case __6: 
            	   ProfileEstudiante profile = new ProfileEstudiante();
            	    this.dispose();
@@ -405,6 +410,11 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
                
             case __10: 
            	    GestionAlumnos alumno= new GestionAlumnos();
+           	    this.dispose();
+               break;  
+               
+            case __11: 
+           	    SubirArchivoProfesor subirP= new SubirArchivoProfesor();
            	    this.dispose();
                break;  
                
