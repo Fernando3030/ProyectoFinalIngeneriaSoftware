@@ -1,5 +1,6 @@
 package Clases;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -21,7 +22,7 @@ import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
 import com.sun.pdfview.PagePanel;
 
-public class LeerPdf extends JPanel implements ActionListener {
+public class LeerPdf extends JInternalFrame implements ActionListener {
 	static String a="";
 	//
 	public JButton nextPage = new JButton("Siguiente");
@@ -32,16 +33,16 @@ public class LeerPdf extends JPanel implements ActionListener {
 	public int paginas = 900;
 	public int number = 0;
 	public PagePanel panel = new PagePanel();
-	public JPanel prueba = new JPanel();
+	//public JPanel prueba = new JPanel();
 	
 
 			public LeerPdf(String b) {
 				a=b;
-	    					//	setTitle("Pdf Archivos de Ayuda");
-	        					//setResizable(true);
-	        					//setMaximizable(true);
+	    						setTitle("Pdf Archivos de Ayuda");
+	        					setResizable(true);
+	        					setMaximizable(true);
 	        					setLayout(null);
-	        					setSize(1200, 720);
+	        					setSize(940, 580);
 	        					setVisible(true);
 	        					
 	        
@@ -55,13 +56,13 @@ public class LeerPdf extends JPanel implements ActionListener {
 								area1.setBounds(500, 5, 40, 30);
 			
 			//Dimesion del frame y panel
-								Dimension pantalla, cuadro;
-	        					pantalla = Toolkit.getDefaultToolkit().getScreenSize();
-	        					cuadro = this.getSize();
-	        					this.setLocation(((pantalla.width - cuadro.width)/2),
-	        					(pantalla.height - cuadro.height)/2);
-	        					panel.setBounds(10,50,950,1125);
-	        					panel.setBackground(Color.GRAY);
+							//	Dimension pantalla, cuadro;
+	        					//pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+	        					//cuadro = this.getSize();
+	        					//this.setLocation(((pantalla.width - cuadro.width)/2),
+	        					//(pantalla.height - cuadro.height)/2);
+	        					panel.setBounds(10,50,940, 580);
+	        					panel.setBackground(new Color(46,139,87));
 	    	//Agrego todos los elemntos al frame principal
 	        					add(nextPage);
 	        					add(backPage);
@@ -71,7 +72,7 @@ public class LeerPdf extends JPanel implements ActionListener {
 	        					repaint();
 	        					
 	        //Cuando se cierre la ventana se acaba la compilación
-	        					//setDefaultCloseOperation(EXIT_ON_CLOSE);
+	        					setDefaultCloseOperation(EXIT_ON_CLOSE);
 	        }
 
 	 

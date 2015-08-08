@@ -1,5 +1,6 @@
 package InterfazGrafica;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 
@@ -36,6 +37,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import Clases.LeerPdf;
+
 
 
 
@@ -53,6 +56,12 @@ public class LeerDocumentoProfesor {
 	String libro;
 	 ArrayList <DefaultMutableTreeNode> array=new ArrayList <DefaultMutableTreeNode> ();
 	 DefaultMutableTreeNode aux;
+	// private JScrollPane scrollCentro;
+	 private LeerPdf a;
+	// private PanelPdf panelC;
+	
+	 private JPanel panelCentro;
+	// private JScrollPane scrollInterno;
 
 	/**
 	 * Create the application.
@@ -75,47 +84,68 @@ public class LeerDocumentoProfesor {
 		}
 		frmLibrosProfesor = new JFrame();
 		frmLibrosProfesor.setTitle("Libros Profesor");
-		frmLibrosProfesor.setBounds(100, 100, 1102, 658);
+		frmLibrosProfesor.setBounds(100, 100, 1222, 727);
 		frmLibrosProfesor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmLibrosProfesor.getContentPane().setLayout(null);
 		
 		panel = new JPanel();
 		panel.setBackground(new Color(46, 139, 87));
-		panel.setBounds(0, 0, 1086, 112);
+		panel.setBounds(0, 0, 1206, 112);
 		frmLibrosProfesor.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblTitulo = new JLabel("");
 		lblTitulo.setIcon(new ImageIcon(LeerDocumentoProfesor.class.getResource("/Imagenes/libro2.png")));
-		lblTitulo.setBounds(251, 0, 164, 111);
+		lblTitulo.setBounds(350, 0, 164, 111);
 		panel.add(lblTitulo);
 		
 		JLabel lblLibros = new JLabel("Libros");
 		lblLibros.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLibros.setForeground(new Color(255, 255, 255));
 		lblLibros.setFont(new Font("Tahoma", Font.BOLD, 50));
-		lblLibros.setBounds(398, 26, 237, 62);
+		lblLibros.setBounds(497, 26, 237, 62);
 		panel.add(lblLibros);
 		
 		JLabel lblTitulo2 = new JLabel("");
 		lblTitulo2.setIcon(new ImageIcon(LeerDocumentoProfesor.class.getResource("/Imagenes/libro2.png")));
-		lblTitulo2.setBounds(622, 0, 164, 111);
+		lblTitulo2.setBounds(721, 0, 164, 111);
 		panel.add(lblTitulo2);
 		
 		JButton btnRegresarAlMen = new JButton("");
+
+
+		btnRegresarAlMen.setOpaque(false);
+		btnRegresarAlMen.setContentAreaFilled(false);
+		btnRegresarAlMen.setBorderPainted(false);
+
+
 		btnRegresarAlMen.setBackground(new Color(46, 139, 87));
-		btnRegresarAlMen.setIcon(new ImageIcon(LeerDocumentoProfesor.class.getResource("/Imagenes/salirr.png")));
+		btnRegresarAlMen.setIcon(new ImageIcon(LeerDocumentoProfesor.class.getResource("/Imagenes/return.png")));
 		btnRegresarAlMen.setForeground(new Color(255, 255, 255));
 		btnRegresarAlMen.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnRegresarAlMen.setBounds(918, 26, 97, 62);
+		btnRegresarAlMen.setBounds(1067, 26, 97, 62);
 		panel.add(btnRegresarAlMen);
 		
 		
 	
 		formarTree();
 		 scrollPane = new JScrollPane(tree); // este scroll panel es para el JTree
-	    	scrollPane.setBounds(0, 113, 260, 506);
+	    	scrollPane.setBounds(0, 113, 260, 585);
 			frmLibrosProfesor.getContentPane().add(scrollPane);
+			
+			
+			
+			
+			 panelCentro = new JPanel();
+			panelCentro.setBounds(264, 113, 942, 585);
+			frmLibrosProfesor.getContentPane().add(panelCentro);
+			panelCentro.setLayout(null);
+			
+			
+			
+			
+			
+			
 		frmLibrosProfesor.setVisible(true);
 		
 		frmLibrosProfesor.setLocationRelativeTo(null);
@@ -135,7 +165,7 @@ public class LeerDocumentoProfesor {
 		
 		modelo = new DefaultTreeModel(abuelo);
 		 tree = new JTree(modelo);
-		tree.setSize(100,70);
+		 tree.setSize(100,500);
 		try {
 		       
 	        resultado=sentencias.executeQuery("SELECT * FROM archivosprofesor");
@@ -183,19 +213,34 @@ public class LeerDocumentoProfesor {
 			    }
 				//paneles de temas
 				if (nseleccionado.equals(aux)) {
-					if (evt.getClickCount() == 1) {
-						panel.repaint();
+					if (evt.getClickCount() == 2) {
+						
+					
 						try {
 						       
 					        resultado=sentencias.executeQuery("SELECT * FROM archivosprofesor where nombrelibro_prof = '" +nseleccionado.toString() +"'");
 					     
 					        while(resultado.next())
 							{	
+					        	panelCentro.removeAll();
+					        	panelCentro.repaint();
+					       
 					        	url= resultado.getString(5);
 					        	System.out.println("imprimir url " + url);
-					        	PanelPdf a=new PanelPdf(url);
-					        	panel.add(a);
+					        	a =new LeerPdf(url);
+					        	panelCentro.add(a);
+					        
+					        
+					            
 					        	
+								
+								//	panelCentro.add(a);
+					        	
+					        	
+					        	
+								
+							
+					        
 					        	
 					        
 
