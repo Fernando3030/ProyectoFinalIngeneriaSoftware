@@ -49,7 +49,7 @@ import java.awt.Font;
  
  public class CirculoMouse extends JFrame{
      private Circulo circulo;
-     private Panel miPanel;
+   private Panel miPanel;
      private Container contenedor;
      private JTextArea calculos;
      private JButton btnImprimir;
