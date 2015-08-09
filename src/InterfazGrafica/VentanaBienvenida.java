@@ -58,7 +58,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
     private float posicionxy = 100; //coordenada de la esquina sup derecha del circulo
 
     /* array de botones circulares */
-    private JButtonCircle[] btn = new JButtonCircle[12];    
+    private JButtonCircle[] btn = new JButtonCircle[11];    
     /* coordenadas de los botones circulares */
     private Point[] pB = { new Point(62,170), // boton dibujar con mouse
                            new Point(278,170) , // boton dibujar con parametros
@@ -66,11 +66,11 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
                            new Point(170,64) , // boton dibujar aleatoriamente
                           
                            new Point(170,278) , // boton salir
-                           new Point(115 ,75), // boton documentos profesor
+                           new Point(90 ,98), // boton documentos para leer
                            new Point(225 ,75), // boton perfil estudiante
                            new Point(115 ,265), // subir archivo otro autor
                            new Point(225 ,265), // Reporte Actividades
-                           new Point(75 ,115), // documentos de otros autores
+                         
                            new Point(265 ,115), // registro de alumnos
                            new Point(75 ,225), // subir archivo del profesor
                            new Point(265 ,225), // reporte de alumnos
@@ -90,7 +90,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
         new ImageIcon(getClass().getResource("/Imagenes/profile2.png")),
         new ImageIcon(getClass().getResource("/Imagenes/uploadDocumentosAutores.png")),
         new ImageIcon(getClass().getResource("/Imagenes/reporteActividades.png")),
-        new ImageIcon(getClass().getResource("/Imagenes/documentoAutores.png")),
+      
         new ImageIcon(getClass().getResource("/Imagenes/adduser.png")),
         new ImageIcon(getClass().getResource("/Imagenes/uploadDocumentosPropio.png")),
         new ImageIcon(getClass().getResource("/Imagenes/reporteAlumnos.png")),
@@ -111,10 +111,10 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
         __6, // profile estudiante
         __7,  // subir documentos autores
         __8, // reporte de actividades
-        __9,  // documentos de otros autores
-        __10, // agregar estudiante
-        __11, // subir archivo del profesor
-        __12 // reportes alumnos
+       
+        __9, // agregar estudiante
+        __10, // subir archivo del profesor
+        __11 // reportes alumnos
       
     }
 
@@ -135,7 +135,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
         panel.addMouseListener(this);
 
         //añade los botones circulares al jpanel circular 
-        for( int i=0; i<12 ; i++)
+        for( int i=0; i<11 ; i++)
         {
             btn[i] = new JButtonCircle( pB[i] );
             btn[i].setVisible( false );
@@ -163,7 +163,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
 	            else
 	            	 if(i== 4)
 	 	            {
-	 	            btn[i].setToolTipText("Documentos del profesor"  );
+	 	            btn[i].setToolTipText("Documentos de lectura"  );
 	 	            }
 	            	 else
 		            	 if(i== 5)
@@ -185,27 +185,23 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
 				 	           btn[i].setEnabled(Login.ActivarMenu);
 				 	         
 				 	            }
-				            	 else
-					            	 if(i== 8)
-					 	            {
-					 	            btn[i].setToolTipText("Documentos de otros autores"  );
-					 	            }
+				            	
 					            	 else
-						            	 if(i== 9)
+						            	 if(i== 8)
 						 	            {
 						 	            btn[i].setToolTipText("Agregar estudiante"  );
 						 	           btn[i].setEnabled(Login.ActivarMenu);
 						 	        
 						 	            }
 						            	 else
-							            	 if(i== 10)
+							            	 if(i== 9)
 							 	            {
 							 	            btn[i].setToolTipText("Subir archivo propio"  );
 							 	           btn[i].setEnabled(Login.ActivarMenu);
 							 	          
 							 	            }
 							            	 else
-								            	 if(i== 11)
+								            	 if(i== 10)
 								 	            {
 								 	            btn[i].setToolTipText("Reportes de Alumno"  );
 								 	           btn[i].setEnabled(Login.ActivarMenu);
@@ -269,7 +265,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
         //muestra botones circulares si es necesario
         if( alto_ancho >= 294 )
         {            
-            for( int i=0; i<12 ; i++)
+            for( int i=0; i<11 ; i++)
             {            
                 btn[i].setVisible(true);     
               
@@ -277,7 +273,7 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
         }
         else if( alto_ancho < 288 ) //si el circulo es muy pequeño los oculta
         {
-            for( int i=0; i<12 ; i++)
+            for( int i=0; i<11 ; i++)
             {            
                 btn[i].setVisible(false);            
             }
@@ -408,21 +404,21 @@ public class VentanaBienvenida extends JFrame  implements MouseListener,ActionLi
            	    this.dispose();
                break;  
                
-            case __10: 
+            case __9: 
            	    GestionAlumnos alumno= new GestionAlumnos();
            	    this.dispose();
                break;  
                
-            case __11: 
+            case __10: 
            	    SubirArchivoProfesor subirP= new SubirArchivoProfesor();
            	    this.dispose();
                break;  
                
-            case __12: 
+            case __11: 
            	    ReporteAlumnos reporteA= new ReporteAlumnos();
            	    this.dispose();
                break;  
-            
+              
 
        }
     }

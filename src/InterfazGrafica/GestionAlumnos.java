@@ -410,7 +410,6 @@ public class GestionAlumnos {
 				     } // final del try
 				     catch(SQLException ex) {
 				       
-				        System.out.println(ex);
 				     }
 				     
 				     

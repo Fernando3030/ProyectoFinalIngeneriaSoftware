@@ -38,6 +38,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import Clases.LeerPdf;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 
@@ -112,6 +114,13 @@ public class LeerDocumentoProfesor {
 		panel.add(lblTitulo2);
 		
 		JButton btnRegresarAlMen = new JButton("");
+		btnRegresarAlMen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frmLibrosProfesor.dispose();
+				VentanaBienvenida ventan= new VentanaBienvenida();
+	
+			}
+		});
 
 
 		btnRegresarAlMen.setOpaque(false);
@@ -162,10 +171,16 @@ public class LeerDocumentoProfesor {
 		
 		DefaultTreeModel modelo;
 		DefaultMutableTreeNode abuelo = new DefaultMutableTreeNode("Libros");
+		DefaultMutableTreeNode primerHijo = new DefaultMutableTreeNode("Libros del Profesor");
+		DefaultMutableTreeNode segundoHijo = new DefaultMutableTreeNode("Libros de otros autores");
+		
+		
 		
 		modelo = new DefaultTreeModel(abuelo);
 		 tree = new JTree(modelo);
 		 tree.setSize(100,500);
+		 modelo.insertNodeInto(primerHijo,abuelo,0);
+			modelo.insertNodeInto(segundoHijo, abuelo, 1);
 		try {
 		       
 	        resultado=sentencias.executeQuery("SELECT * FROM archivosprofesor");
@@ -177,7 +192,7 @@ public class LeerDocumentoProfesor {
 	        	libro= libro+" "+contador;
 	        	DefaultMutableTreeNode libro = new DefaultMutableTreeNode(nombreLibro);
 	        	
-	        	modelo.insertNodeInto(libro,abuelo,contador);
+	        	modelo.insertNodeInto(libro,primerHijo,contador);
 	        	array.add(libro);   
 	        	contador++;
 	        
@@ -188,7 +203,29 @@ public class LeerDocumentoProfesor {
 			        
 			}
 	        
+	        resultado.close();
 	        
+	        resultado=sentencias.executeQuery("SELECT * FROM archivosautores");
+	        contador=0;
+	        libro="";
+		     
+	        while(resultado.next())
+			{	
+	        	
+	        	nombreLibro= resultado.getString(3);
+	        	libro= libro+" "+contador;
+	        	DefaultMutableTreeNode libro = new DefaultMutableTreeNode(nombreLibro);
+	        	
+	        	modelo.insertNodeInto(libro,segundoHijo,contador);
+	        	array.add(libro);   
+	        	contador++;
+	        
+	        	System.out.println(contador);
+	        
+
+			       
+			        
+			}
 	       
 	       
 	     } // final del try
@@ -230,31 +267,31 @@ public class LeerDocumentoProfesor {
 					        	a =new LeerPdf(url);
 					        	panelCentro.add(a);
 					        
-					        
-					            
-					        	
-								
-								//	panelCentro.add(a);
-					        	
-					        	
-					        	
-								
-							
-					        
-					        	
-					        
-
-							       
-							        
+					        							        
 							}
 					        
+					        resultado.close();
+					        resultado=sentencias.executeQuery("SELECT * FROM archivosautores where nombrearchivo_autores = '" +nseleccionado.toString() +"'");
+						     
+					        while(resultado.next())
+							{	
+					        	panelCentro.removeAll();
+					        	panelCentro.repaint();
+					       
+					        	url= resultado.getString(6);
+					        	System.out.println("imprimir url " + url);
+					        	a =new LeerPdf(url);
+					        	panelCentro.add(a);
+					        
+					        							        
+							}
 					        
 					       
 					       
 					     } // final del try
 					     catch(SQLException ex) {
 					       
-					        System.out.println(ex);
+					       
 					     }
 						
 					}

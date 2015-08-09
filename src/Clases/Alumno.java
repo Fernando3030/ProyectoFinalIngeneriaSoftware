@@ -1,12 +1,32 @@
 package Clases;
 
+import java.util.Date;
+
 public class Alumno {
 	
 	private String nombre;
 	private String apellido;
 	private String codigo;
 	private String curso;
-	private String fechaRegistro;
+	private Date fechaRegistro;
+	private String paralelo;
+	
+	public Alumno(String nombre, String apellido, String curso, String paralelo, Date fechaRegistro, String usuario)
+	{
+		this.nombre= nombre;
+		this.apellido= apellido;
+		this.curso= curso;
+		this.paralelo= paralelo;
+		this.fechaRegistro= fechaRegistro;
+		this.usuario= usuario;
+	}
+	
+	public String getParalelo() {
+		return paralelo;
+	}
+	public void setParalelo(String paralelo) {
+		this.paralelo = paralelo;
+	}
 	private String usuario;
 	private String contrasena;
 	
@@ -34,10 +54,10 @@ public class Alumno {
 	public void setCurso(String curso) {
 		this.curso = curso;
 	}
-	public String getFechaRegistro() {
+	public Date getFechaRegistro() {
 		return fechaRegistro;
 	}
-	public void setFechaRegistro(String fechaRegistro) {
+	public void setFechaRegistro(Date fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
 	public String getUsuario() {
