@@ -17,6 +17,7 @@ import java.awt.Container;
 
 
 
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -58,6 +59,7 @@ import java.awt.FlowLayout;
 
 
 
+
 import Clases.Alumno;
 
 import com.toedter.calendar.JDateChooser;
@@ -69,6 +71,7 @@ import java.awt.event.ItemListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -192,69 +195,144 @@ public class ReporteAlumnos {
 		btnGenerar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				arrayAlumno= new ArrayList<Alumno>();
+				Date fechaDesde = JDateDesde.getDate();
+				Date fechaHasta = JDateHasta.getDate();
 				if(rbfecha.isSelected()==true){
 					
-					try {
+					if(fechaDesde != null && fechaHasta != null)
+					{
+						try {
+						       
+					        resultado=sentencias.executeQuery("SELECT * FROM alumnos WHERE fech_reg_alumno between '"+fechaDesde+"'"+" and '"+ fechaHasta+"'");
+					     
+					        while(resultado.next())
+							{	
+					        	
+							        String nombre= resultado.getString(2);
+							    
+							        String apellido= resultado.getString(3);
+							        String curso= resultado.getString(4);
+							        String paralelo= resultado.getString(9);
+							        Date fecha= resultado.getDate(5);
+							        String usuario= resultado.getString(6);
+							        
+							        arrayAlumno.add(new Alumno(nombre,apellido,curso,paralelo,fecha,usuario));
+							        
+							        
+							     
+							}
+					  
+							        	
+					  
 					       
-				        resultado=sentencias.executeQuery("SELECT * FROM alumnos WHERE fech_reg_alumno between '"+JDateDesde.getDate()+"'"+" and '"+ JDateHasta.getDate()+"'");
-				     
-				        while(resultado.next())
-						{	
-				        	
-						        String nombre= resultado.getString(2);
-						        String apellido= resultado.getString(3);
-						        String curso= resultado.getString(4);
-						        String paralelo= resultado.getString(9);
-						        Date fecha= resultado.getDate(5);
-						        String usuario= resultado.getString(6);
-						        arrayAlumno.add(new Alumno(nombre,apellido,curso,paralelo,fecha,usuario));
-						        
-						        
-						     
-						}
-				  
-						        	
-				  
-				       
-				     } // final del try
-				     catch(SQLException ex) {
-				       
-				        System.out.println(ex);
-				     }
-					
-					try
-		    		{
+					     } // final del try
+					     catch(SQLException ex) {
+					       
+					        System.out.println(ex);
+					     }
 						
-		    		    JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reporteAlumnosFinal.jasper");
-		    		    
-		    		  
-		    		    JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null, new JRBeanCollectionDataSource(arrayAlumno));
-		    		//    JasperPrint jasperPrint2 = JasperFillManager.fillReport(reporte, null, new JRBeanCollectionDataSource(detalle2));
-		    		    JRExporter exporter = new JRPdfExporter();
-		    		    exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		    		    exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File("Reporte Alumnos.pdf"));
-		    		    
-		    		    JasperViewer jviewer = new JasperViewer(jasperPrint,false);
-		    		    jviewer = new JasperViewer(jasperPrint,false);
-		    		    jviewer.setTitle("Reportes de Alumnos");
-		    		    jviewer.setVisible(true);
-		    		    exporter.exportReport();
-		    			JOptionPane.showMessageDialog(null, "Factura Generada con Exito");
-		    		}
-		    		catch(JRException e)
-		    		{
-		    		    e.printStackTrace();
-		    		}
+						try
+			    		{
+							
+			    		    JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reporteAlumnosFinal.jasper");
+			    		    
+			    		  
+			    		    JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null, new JRBeanCollectionDataSource(arrayAlumno));
+			    		//    JasperPrint jasperPrint2 = JasperFillManager.fillReport(reporte, null, new JRBeanCollectionDataSource(detalle2));
+			    		    JRExporter exporter = new JRPdfExporter();
+			    		    exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			    		    exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File("Reporte Alumnos.pdf"));
+			    		    
+			    		    JasperViewer jviewer = new JasperViewer(jasperPrint,false);
+			    		    jviewer = new JasperViewer(jasperPrint,false);
+			    		    jviewer.setTitle("Reportes de Alumnos");
+			    		    jviewer.setVisible(true);
+			    		    exporter.exportReport();
+			    			JOptionPane.showMessageDialog(null, "Reporte Generada con Exito");
+			    		}
+			    		catch(JRException e)
+			    		{
+			    		    e.printStackTrace();
+			    		}
+						
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "No puede dejar campos vacíos");
+					}
+					
+					
 			         
 
 					}
 					
 					if(rbTodos.isSelected()==true){
+						JDateDesde.setDate(null);
+
+						JDateHasta.setDate(null);
+						
+							try {
+							       
+						        resultado=sentencias.executeQuery("SELECT * FROM alumnos");
+						     
+						        while(resultado.next())
+								{	
+						        	
+								        String nombre= resultado.getString(2);
+								        String apellido= resultado.getString(3);
+								        String curso= resultado.getString(4);
+								        String paralelo= resultado.getString(9);
+								        Date fecha= resultado.getDate(5);
+								        String usuario= resultado.getString(6);
+								        arrayAlumno.add(new Alumno(nombre,apellido,curso,paralelo,fecha,usuario));
+								        
+								        
+								     
+								}
+						  
+								        	
+						  
+						       
+						     } // final del try
+						     catch(SQLException ex) {
+						       
+						        System.out.println(ex);
+						     }
+							
+							try
+				    		{
+								
+				    		    JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reporteAlumnosFinal.jasper");
+				    		    
+				    		  
+				    		    JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null, new JRBeanCollectionDataSource(arrayAlumno));
+				    		//    JasperPrint jasperPrint2 = JasperFillManager.fillReport(reporte, null, new JRBeanCollectionDataSource(detalle2));
+				    		    JRExporter exporter = new JRPdfExporter();
+				    		    exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				    		    exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File("Reporte de Todos los Alumnos.pdf"));
+				    		    
+				    		    JasperViewer jviewer = new JasperViewer(jasperPrint,false);
+				    		    jviewer = new JasperViewer(jasperPrint,false);
+				    		    jviewer.setTitle("Reportes de Alumnos");
+				    		    jviewer.setVisible(true);
+				    		    exporter.exportReport();
+				    			JOptionPane.showMessageDialog(null, "Reporte Generada con Exito");
+				    		}
+				    		catch(JRException e)
+				    		{
+				    		    e.printStackTrace();
+				    		}
+							
+						}
+					
+						
+						
+				         
 						
 			        }
 				
 				
-			}
+			
 		});
 		
 		panelInferior = new JPanel();

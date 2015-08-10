@@ -11,6 +11,7 @@ import java.awt.event.MouseMotionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,10 +21,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import org.apache.commons.digester.xmlrules.CircularIncludeException;
+
 import Clases.Circulo;
 import Clases.Validaciones;
  
- public class CirculoAleatorio extends JFrame{
+ public class CirculoAleatorio extends Circulo{
      private Circulo circulo;
      private Panel miPanel;
      private Container contenedor;
@@ -33,12 +36,12 @@ import Clases.Validaciones;
      private JButton btnSalir;
      private MoverFigura figura;
     
-     
+     private JFrame frame;
 		private  Statement sentencias;
 		private ResultSet resultado;
 		Validaciones validacion= new Validaciones();
-		private int x1= 0;
-       private 	int y1=0;
+	//	private int x1= 0;
+     //  private 	int y1=0;
        private double radioDibujado;
      /** 
         * Si actualmente se está arrastrando o no el rectángulo.
@@ -64,18 +67,18 @@ import Clases.Validaciones;
    public CirculoAleatorio(){
 	   
 	   
-        super("Dibujar Circulo Aleatoriamente");
+        frame=  new JFrame("Dibujar Circulo Aleatoriamente");
         try {
 			sentencias= Login.con.con.createStatement();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-         contenedor = getContentPane();
-        setSize(500, 600);
+         contenedor = frame.getContentPane();
+         frame.setSize(500, 600);
          contenedor.setBackground(Color.WHITE);
-         setResizable(false);
-         setLocationRelativeTo(null);
+         frame.setResizable(false);
+         frame.setLocationRelativeTo(null);
          panelInferior= new JPanel();
          panelInferior.setLayout(new GridLayout(1,2,0,3));
          btnSalir= new JButton("Regresar al Menú");
@@ -86,7 +89,7 @@ import Clases.Validaciones;
          addEventos();
         
          
-         setVisible(true);
+         frame.setVisible(true);
     }
         public void addComponentes(){
          miPanel = new Panel();
@@ -107,14 +110,14 @@ import Clases.Validaciones;
          bDibujar.addActionListener(new ActionListener(){
              public void actionPerformed(ActionEvent evento){
                  dibujarCirculo();
-                 addMouseMotionListener(figura);
+                 frame.addMouseMotionListener(figura);
                 
              }
          });
          
          btnSalir.addActionListener(new ActionListener(){
              public void actionPerformed(ActionEvent evento){
-               dispose();
+            	 frame.dispose();
                VentanaBienvenida ventana= new VentanaBienvenida();
              }
          });
@@ -161,15 +164,17 @@ import Clases.Validaciones;
              double a= circulo.calcularArea(radio);
              double c= circulo.calcularCircunferencia(radio);
         	String codigo= validacion.codigoAleatorio(8);
-        	Date now = new Date(System.currentTimeMillis());
+        	fechaCirculo = new Date(System.currentTimeMillis());
             SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat hour = new SimpleDateFormat("HH:mm:ss");
             
             
+            
               try {
              	 
-             	 sentencias.executeUpdate("INSERT INTO circuloaleatorio VALUES ('"+Login.usuarioAlumno+"',"+"'"+r+"',"+"'"+d+"',"+"'"+a+"',"+"'"+c+"',"+"'"+codigo+"',"+"'"+date.format(now)+"',"+"'"+hour.format(now)+"')");
-               }
+             	 sentencias.executeUpdate("INSERT INTO circulo VALUES ('"+Login.usuarioAlumno+"',"+"'"+r+"',"+"'"+d+"',"+"'"+a+"',"+"'"+c+"',"+"'"+codigo+"',"+"'"+date.format(fechaCirculo)+"',"+"'"+hour.format(fechaCirculo)+"')");
+                 
+              }
                catch (SQLException ex) {
                    JOptionPane.showMessageDialog(null,"Hubo un Problema al Intentar Insertar el Registro");
                    System.out.println(ex);

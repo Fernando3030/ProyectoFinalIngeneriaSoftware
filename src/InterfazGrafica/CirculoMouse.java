@@ -441,7 +441,7 @@ import java.awt.Font;
            
              try {
             	 
-            	 sentencias.executeUpdate("INSERT INTO circulomouse VALUES ('"+codigo+"',"+"'"+r+"',"+"'"+d+"',"+"'"+a+"',"+"'"+c+"',"+"'"+date.format(now)+"',"+"'"+hour.format(now)+"',"+"'"+Login.usuarioAlumno+"')");
+            	 sentencias.executeUpdate("INSERT INTO circulo VALUES ('"+Login.usuarioAlumno+"',"+"'"+r+"',"+"'"+d+"',"+"'"+a+"',"+"'"+c+"',"+"'"+codigo+"',"+"'"+date.format(now)+"',"+"'"+hour.format(now)+"')");
               }
               catch (SQLException ex) {
                   JOptionPane.showMessageDialog(null,"Hubo un Problema al Intentar Insertar el Registro");

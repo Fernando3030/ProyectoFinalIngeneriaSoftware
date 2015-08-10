@@ -2,18 +2,62 @@ package Clases;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
-import javax.swing.JOptionPane;
+import java.sql.Time;
+import java.util.Date;
+
  
  public class Circulo {
-     private int x1;
-     private int y1;
-    private double radio;
-    private double diametro;
-     private double area;
-     private double circunferencia;
+     protected int x1;
+     protected int y1;
+    protected double radio;
+    protected double diametro;
+    protected double area;
+    protected double circunferencia;
+    protected String usuario;
+    protected Date fechaCirculo;
+    protected Time hora;
 
+    public Circulo(String usuario, double radio, double diametro, double area, double circunferencia, Date fechaCirculo, Time hora)
+    {
+    	this.usuario= usuario;
+    	this.radio= radio;
+    	this.diametro= diametro;
+    	this.area= area;
+    	this.circunferencia= circunferencia;
+    	this.fechaCirculo= fechaCirculo;
+    	this.hora= hora;
+    	
+    }
+    
+	 public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public Date getFechaCirculo() {
+		return fechaCirculo;
+	}
+
+	public void setFechaCirculo(Date fechaCirculo) {
+		this.fechaCirculo = fechaCirculo;
+	}
+
+	public Time getHora() {
+		return hora;
+	}
+
+	public void setHora(Time hora) {
+		this.hora = hora;
+	}
+
+	public Circulo()
+	 {
+		 
+	 }
      
      public Circulo(int x1, int y1, double radio){
          cambiarUbicacion(x1, y1);
