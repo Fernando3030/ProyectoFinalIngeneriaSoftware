@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,14 +36,19 @@ import Clases.Validaciones;
      private JPanel panelInferior;
      private JButton btnSalir;
      private MoverFigura figura;
+
+     private int xAux;
+     private int yAux;
     
      private JFrame frame;
 		private  Statement sentencias;
 		private ResultSet resultado;
 		Validaciones validacion= new Validaciones();
-	//	private int x1= 0;
-     //  private 	int y1=0;
+
        private double radioDibujado;
+       private int xLimite=0;
+       private int yLimite=0;
+       
      /** 
         * Si actualmente se está arrastrando o no el rectángulo.
         */
@@ -83,6 +89,7 @@ import Clases.Validaciones;
          panelInferior.setLayout(new GridLayout(1,2,0,3));
          btnSalir= new JButton("Regresar al Menú");
          figura= new MoverFigura();
+     
         
          
          addComponentes();
@@ -109,8 +116,11 @@ import Clases.Validaciones;
         public void addEventos(){
          bDibujar.addActionListener(new ActionListener(){
              public void actionPerformed(ActionEvent evento){
+            	 xAux=0;
+            	 yAux=0;
                  dibujarCirculo();
                  frame.addMouseMotionListener(figura);
+               
                 
              }
          });
@@ -132,7 +142,7 @@ import Clases.Validaciones;
            
          
          circulo = new Circulo(x1, y1, radio);
-         radioDibujado= circulo.calcularDiametro(radio);
+         radioDibujado= circulo.calcularCircunferencia(radio);
          miPanel.dibujar(circulo);
          mostrarCalculos(radio);
       
@@ -143,7 +153,37 @@ import Clases.Validaciones;
          String diametro;
          String area;
          String circunferencia;
-        
+        if(radio <= 50)
+        {
+        	xLimite= 380;
+        	yLimite=380;
+        }
+        else
+        	if(radio > 50 && radio <=100)
+        {
+        		xLimite= 300;
+            	yLimite=300;
+        }
+        	  else
+              	if(radio > 100 && radio <=150)
+              {
+              		xLimite= 200;
+                  	yLimite=190;
+              }
+              	 else
+                   	if(radio > 150 && radio <=200)
+                   {
+                   		xLimite= 90;
+                       	yLimite=90;
+                   }
+                    else
+                       	if(radio > 200 && radio <=220)
+                       {
+                       		xLimite= 50;
+                           	yLimite=50;
+                       }
+                
+            
        
          radio2 = "Radio: \t" + (circulo.calcularDiametro(radio) / 2);
          diametro = "Diametro: \t" + circulo.calcularDiametro(radio);
@@ -152,6 +192,7 @@ import Clases.Validaciones;
          
          calculos.setText(": : Calculos : :" + "\n" + radio2 + "\n" + diametro + 
                 "\n" + area + "\n" + circunferencia);
+        
          
          if(Login.esAdmin)  // si es admin
          {
@@ -195,7 +236,7 @@ import Clases.Validaciones;
     	     * Si se comienza el arrastre, se guardan las coordenadas del ratón que
     	     * vienen en el evento MouseEvent y se cambia el valor del atributo arrastrando.
     	     * Si se está en medio de un arrastre, se calcula la nueva posición del
-    	     * rectángulo y se llama al método repaint() para que se pinte.
+    	     * circulo y se llama al método repaint() para que se pinte.
     	     *
     	     * @param e Evento del ratón
     	     */
@@ -221,6 +262,7 @@ import Clases.Validaciones;
 	          // coordenadas del circulo
 	            x1 = (x1 + e.getX()) - xAnteriorRaton;
 	            y1 = (y1 + e.getY()) - yAnteriorRaton;
+	           // System.out.println("imprimir nuevas coordenadas x " + x1 + " y " + y1);
 	           
 	        //    circulo.setRadio(radioDibujado);
 	            
@@ -229,12 +271,24 @@ import Clases.Validaciones;
 	            yAnteriorRaton = e.getY();
 	            
 	            // y se manda repintar el Canvas
-	            if(x1 > 0 && x1 <500)
-	           {
+	            if(x1>0 && y1>0 && x1 <= xLimite && y1 <= yLimite)
+	            {
 	            	circulo.setX1(x1);
 		            circulo.setY1(y1);
 		            miPanel.repaint();
-	           }
+		            xAux= x1;
+		            yAux= y1;
+	            }
+	            else
+	            {
+	            	x1= xAux;
+	            	y1= yAux;
+	            }
+	            
+	           
+	           
+	            	
+	           
 	            
 	        }
 			
@@ -254,16 +308,17 @@ import Clases.Validaciones;
      }
      
      /**
-	     * Para ver si el ratón está dentro del rectángulo.
+	     * Para ver si el ratón está dentro del circulo.
 	     * Si está dentro, puede comenzar el arrastre.
 	     *
 	     * @param e El evento de ratón
 	     *
-	     * @return true si el ratón está dentro del rectángulo
+	     * @return true si el ratón está dentro del circulo
 	     */
  	
 	    private boolean estaDentro(MouseEvent e)
 	    {
+	    	System.out.println("imprimir ");
 	        if (
 	            (e.getX() > x1) &&
 	                (e.getX() < (x1 + radioDibujado)) &&
@@ -271,12 +326,15 @@ import Clases.Validaciones;
 	                (e.getY() < (y1 + radioDibujado)))
 	        {
 	        	System.out.println("esta dentro");
+	        //	System.out.println("imprimir x1 " + e.getX() + " imprimir y1 " + e.getY());
 	        	return true;
 	            
 	        }
 	        System.out.println("esta fuera");
 	        return false;
 	    }
+	    
+	 
      
    
   }

@@ -6,6 +6,9 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +21,10 @@ import javax.swing.JTextField;
 import Clases.Circulo;
 import Clases.Validaciones;
 
+
+
+
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
@@ -27,7 +34,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
  
- public class CirculoParametros extends JFrame{
+ public class CirculoParametros extends Circulo{
      private Circulo circulo;
      private Panel miPanel;
      private Container contenedor;
@@ -42,20 +49,50 @@ import java.util.Date;
  	private  Statement sentencias;
 	private ResultSet resultado;
 	Validaciones validacion= new Validaciones();
+	private JFrame frame;
+	
+	private double radioDibujado;
+    private int xLimite=0;
+    private int yLimite=0;
+    
+  /** 
+     * Si actualmente se está arrastrando o no el rectángulo.
+     */
+    private boolean arrastrando = false;
+    /** 
+     * x en la que estaba anteriormente el ratón.
+     */
+    private int xAnteriorRaton;
+
+    /** 
+     * y en la que estaba anteriormente el ratón
+     */
+    private int yAnteriorRaton;
+    
+    /**
+     * serial uid
+     */
+    private static final long serialVersionUID = -4273648398171436938L;
+    
+    private MoverFigura figura;
+   
+    private int xAux;
+    private int yAux;
    
    public CirculoParametros(){
-        super("Dibujar Circulo con Parámetros");
+       
+	   frame= new JFrame("Circulo con parámetros");
         try {
 			sentencias= Login.con.con.createStatement();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-         contenedor = getContentPane();
-        setSize(500, 600);
+         contenedor = frame.getContentPane();
+        frame.setSize(500, 600);
          contenedor.setBackground(Color.WHITE);
-         setResizable(false);
-         setLocationRelativeTo(null);
+         frame.setResizable(false);
+         frame.setLocationRelativeTo(null);
          lblIngreso= new JLabel("Ingrese el Radio");
          txtIngreso= new JTextField();
          
@@ -71,11 +108,13 @@ import java.util.Date;
          miPanel = new Panel();
          calculos = new JTextArea("Calculos");
          btnCalcular = new JButton("Calcular");
+         figura= new MoverFigura();
+        
          
          addComponentes();
          addEventos();
          
-         setVisible(true);
+         frame.setVisible(true);
     }
         public void addComponentes(){
         
@@ -104,10 +143,15 @@ import java.util.Date;
             	 if(txtIngreso.getText().length() != 0)
             	 {
             		 double radio= Double.parseDouble(txtIngreso.getText());
-            		 if(radio >= 1 & radio <=150)
+            		 if(radio >= 1 & radio <=220)
             		 {
-		                 dibujarCirculo(radio);
-		                 mostrarCalculos(radio);
+            			 xAux=0;
+                    	 yAux=0;
+                         dibujarCirculo(radio);
+                       
+                         frame.addMouseMotionListener(figura);
+                       
+		                 
             		 }
             		 else
             		 {
@@ -123,7 +167,7 @@ import java.util.Date;
          
          btnSalir.addActionListener(new ActionListener(){
              public void actionPerformed(ActionEvent evento){
-               dispose();
+               frame.dispose();
                VentanaBienvenida ventana= new VentanaBienvenida();
              }
          });
@@ -140,7 +184,7 @@ import java.util.Date;
           			if(!Character.isDigit(c)&& c!= KeyEvent.VK_BACK_SPACE&& c!= KeyEvent.VK_PERIOD)
           			{
           				ke.consume();
-          				getToolkit().beep();
+          				frame.getToolkit().beep();
           				JOptionPane.showMessageDialog(null, "Ingresa Solo Numeros");
           			}
           		}
@@ -149,7 +193,7 @@ import java.util.Date;
           			if(!Character.isDigit(c)&& c!= KeyEvent.VK_BACK_SPACE)
           			{
           				ke.consume();
-          				getToolkit().beep();
+          				frame.getToolkit().beep();
           				JOptionPane.showMessageDialog(null, "Ingresa Solo Numeros");
           			}
           		}
@@ -161,11 +205,13 @@ import java.util.Date;
         
         public void dibujarCirculo(double radio){
       
-        	int x1= 175;
-        	int y1=175;
+        	x1=0;
+            y1=0;
          
          
          circulo = new Circulo(x1, y1, radio);
+         radioDibujado= circulo.calcularCircunferencia(radio);
+         mostrarCalculos(radio);
         
          miPanel.dibujar(circulo);
      }
@@ -177,6 +223,36 @@ import java.util.Date;
          String circunferencia;
          DecimalFormat areaDecimal = new DecimalFormat("0.00"); 
          DecimalFormat circuDecimal = new DecimalFormat("0.00"); 
+         
+         if(radio <= 50)
+         {
+         	xLimite= 380;
+         	yLimite=380;
+         }
+         else
+         	if(radio > 50 && radio <=100)
+         {
+         		xLimite= 300;
+             	yLimite=300;
+         }
+         	  else
+               	if(radio > 100 && radio <=150)
+               {
+               		xLimite= 200;
+                   	yLimite=190;
+               }
+               	 else
+                    	if(radio > 150 && radio <=200)
+                    {
+                    		xLimite= 90;
+                        	yLimite=90;
+                    }
+                     else
+                        	if(radio > 200 && radio <=220)
+                        {
+                        		xLimite= 50;
+                            	yLimite=50;
+                        }
          
          radio2 = "Radio: \t" + String.valueOf(radio);
          diametro = "Diametro: \t" + circulo.calcularDiametro(radio);
@@ -214,4 +290,113 @@ import java.util.Date;
        	 
         }
      }
+     
+     public class MoverFigura  implements  MouseMotionListener {
+
+    	 /**
+    	     * Método al que se llama cuando se arrastra el ratón.
+    	     * Se comprueba con el atributo arrastrando si está empezando el arrastre o
+    	     * ya se esta en medio del mismo.
+    	     * Si se comienza el arrastre, se guardan las coordenadas del ratón que
+    	     * vienen en el evento MouseEvent y se cambia el valor del atributo arrastrando.
+    	     * Si se está en medio de un arrastre, se calcula la nueva posición del
+    	     * circulo y se llama al método repaint() para que se pinte.
+    	     *
+    	     * @param e Evento del ratón
+    	     */
+		public void mouseDragged(MouseEvent e) {
+			
+			// Si comienza el arrastre ...
+	        if (!arrastrando)
+	        {
+	          // ... y el ratón está dentro del rectángulo
+	            if (estaDentro(e))
+	            {
+	              // Se guardan las posiciones del ratón
+	                xAnteriorRaton = e.getX();
+	                yAnteriorRaton = e.getY();
+	                System.out.println("imprimir xAnterio " + xAnteriorRaton + " " + "imprimir yAnterior " + yAnteriorRaton);
+	                // y se marca que ha comenzado el arrastre.
+	                arrastrando = true;
+	            }
+	        }
+	        else
+	        {
+	          // Si ya había empezado el arrastre, se calculan las nuevas
+	          // coordenadas del circulo
+	            x1 = (x1 + e.getX()) - xAnteriorRaton;
+	            y1 = (y1 + e.getY()) - yAnteriorRaton;
+	           // System.out.println("imprimir nuevas coordenadas x " + x1 + " y " + y1);
+	           
+	        //    circulo.setRadio(radioDibujado);
+	            
+	            // Se guarda la posición del ratón para el siguiente cálculo
+	            xAnteriorRaton = e.getX();
+	            yAnteriorRaton = e.getY();
+	            
+	            // y se manda repintar el Canvas
+	            if(x1>0 && y1>0 && x1 <= xLimite && y1 <= yLimite)
+	            {
+	            	circulo.setX1(x1);
+		            circulo.setY1(y1);
+		            miPanel.repaint();
+		            xAux= x1;
+		            yAux= y1;
+	            }
+	            else
+	            {
+	            	x1= xAux;
+	            	y1= yAux;
+	            }
+	            
+	           
+	           
+	            	
+	           
+	            
+	        }
+			
+			
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent arg0) {
+	
+			arrastrando = false;
+			System.out.println("se movio");
+		}
+		
+		
+	
+    	 
+     }
+     
+     /**
+	     * Para ver si el ratón está dentro del circulo.
+	     * Si está dentro, puede comenzar el arrastre.
+	     *
+	     * @param e El evento de ratón
+	     *
+	     * @return true si el ratón está dentro del circulo
+	     */
+ 	
+	    private boolean estaDentro(MouseEvent e)
+	    {
+	    	System.out.println("imprimir ");
+	        if (
+	            (e.getX() > x1) &&
+	                (e.getX() < (x1 + radioDibujado)) &&
+	                (e.getY() > y1) &&
+	                (e.getY() < (y1 + radioDibujado)))
+	        {
+	        	System.out.println("esta dentro");
+	        //	System.out.println("imprimir x1 " + e.getX() + " imprimir y1 " + e.getY());
+	        	return true;
+	            
+	        }
+	        System.out.println("esta fuera");
+	        return false;
+	    }
+	    
+	
   }

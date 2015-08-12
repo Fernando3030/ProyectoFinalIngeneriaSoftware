@@ -3,7 +3,7 @@ package InterfazGrafica;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
+
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -12,30 +12,19 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-
-
-
-
-
-
-
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
+
 
 import Clases.Circulo;
 import Clases.Validaciones;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,16 +35,15 @@ import java.util.Date;
 import javax.swing.SwingConstants;
 
 import java.awt.Font;
+import javax.swing.ImageIcon;
  
- public class CirculoMouse extends JFrame{
+ public class CirculoMouse extends Circulo{
      private Circulo circulo;
    private Panel miPanel;
      private Container contenedor;
      private JTextArea calculos;
-     private JButton btnImprimir;
      private JPanel panelInferior;
      private JPanel panelContenedor;
-     private JPanel panelInferiorCentro;
      private JPanel panelInferiorDerecho;
     // private  JScrollPane scrollpane;
     
@@ -75,11 +63,7 @@ import java.awt.Font;
      private  int ejey2=0;
      private int auxEjex1=0;
      private int auxEjey1=0;
-     private int puntoNuevox1=0;
-     private int puntoNuevoy2=0;
-  
-     private int anchoPanel= 1000;
-     private int largoPanel= 500;
+    
      public double factor = 100;
      public   double auxFactor;
      double AuxRadio;
@@ -88,6 +72,7 @@ import java.awt.Font;
      private boolean banderaManoA= true; 
      private boolean banderaDibujo= true;
      private boolean banderaCancelar= true;
+     private JFrame frame;
      
   	private  Statement sentencias;
  	private ResultSet resultado;
@@ -98,7 +83,7 @@ import java.awt.Font;
 
    
    public CirculoMouse(){
-        super("Dibujar Circulo con el Mouse");
+        frame= new JFrame("Dibujar Circulo con el Mouse");
         
         try {
 			sentencias= Login.con.con.createStatement();
@@ -106,45 +91,37 @@ import java.awt.Font;
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-         contenedor = getContentPane();
+         contenedor = frame.getContentPane();
          controlador1= new MouseClick();
          controlador2 = new MouseAlzado();
          controlador3= new MouseClick2();
         
          
-         setSize(1000, 600);
+         frame.setSize(1000, 600);
        
-         setResizable(false);
-         setLocationRelativeTo(null);
+         frame.setResizable(false);
+         frame.setLocationRelativeTo(null);
          panelContenedor= new JPanel();
          panelContenedor.setLayout(new BorderLayout());
         
          miPanel = new Panel();
    
-         //scrollpane = new JScrollPane();
-     
+        
         
          panelInferior= new JPanel();
-         panelInferior.setLayout(new GridLayout(1,4,2,2));
-         
-         panelInferiorCentro= new JPanel();
-         panelInferiorCentro.setLayout(new GridLayout(2,0,2,0));
+         panelInferior.setLayout(new GridLayout(0,2,2,2));
          
          panelInferiorDerecho= new JPanel();
          panelInferiorDerecho.setLayout(new GridLayout(3,3,2,2));
          
-         
-         
-        
-         btnSalir= new JButton("Regresar al Menú");
-         
          calculos = new JTextArea("Calculos");
-         btnImprimir = new JButton("Imprimir Trabajo");
          btnManoAlzada= new JButton("Mano Alzada");
-         btnZoomMas= new JButton("+");
+         btnZoomMas= new JButton("");
+         btnZoomMas.setIcon(new ImageIcon(CirculoMouse.class.getResource("/Imagenes/zoom.png")));
 
     
-         btnZoomMenos= new JButton("-");
+         btnZoomMenos= new JButton("");
+         btnZoomMenos.setIcon(new ImageIcon(CirculoMouse.class.getResource("/Imagenes/zoomMenos.png")));
     
        
        
@@ -160,7 +137,7 @@ import java.awt.Font;
          lblOculto2.setHorizontalAlignment(SwingConstants.CENTER);
          lblZoom= new JLabel("100 %");
          lblZoom.setForeground(new Color(0, 100, 0));
-         lblZoom.setFont(new Font("Tahoma", Font.BOLD, 14));
+         lblZoom.setFont(new Font("Tahoma", Font.BOLD, 18));
          lblZoom.setHorizontalAlignment(SwingConstants.CENTER);
       
          
@@ -168,7 +145,7 @@ import java.awt.Font;
          addEventos();
          desahabilitar();
          
-         setVisible(true);
+         frame.setVisible(true);
     }
    
    public void habilitar()
@@ -186,15 +163,10 @@ import java.awt.Font;
         public void addComponentes()
         {
         
-        	//scrollpane.setViewportView(miPanel);
-        	//miPanel.setScrollPane(scrollpane);
+        
         	
          panelInferior.add(calculos);
-         panelInferior.add(panelInferiorCentro);
          panelInferior.add(panelInferiorDerecho);
-        
-         panelInferiorCentro.add(btnImprimir);
-         panelInferiorCentro.add(btnSalir);
          panelInferiorDerecho.add(btnManoAlzada);
          panelInferiorDerecho.add(btnZoomMas);
          panelInferiorDerecho.add(lblOculto2);
@@ -202,16 +174,20 @@ import java.awt.Font;
          panelInferiorDerecho.add(btnZoomMenos);
          panelInferiorDerecho.add(lblZoom);
          panelInferiorDerecho.add(btnBorrarDibujo);
+         
+         
+         
+        
+         btnSalir= new JButton("Salir");
+         panelInferiorDerecho.add(btnSalir);
          panelInferiorDerecho.add(lblOcultar);
         
          panelContenedor.add(miPanel, BorderLayout.CENTER);
          panelContenedor.add(panelInferior, BorderLayout.SOUTH);
-        // contenedor.add(bDibujar, BorderLayout.NORTH);
-       //  contenedor.add(miPanel, BorderLayout.CENTER);
+       
          contenedor.add(panelContenedor);
 
-        // scrollpane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        // scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+      
                  
         
         //muestra normal el JTextArea pero no permite escribir desde el teclado
@@ -221,19 +197,10 @@ import java.awt.Font;
         }
          
         public void addEventos(){
-        	
-        	
-        	btnImprimir.addActionListener(new ActionListener(){
-             public void actionPerformed(ActionEvent evento){
-            	
-            	 
-            	 
-             }
-         });
          
          btnSalir.addActionListener(new ActionListener(){
              public void actionPerformed(ActionEvent evento){
-               dispose();
+            	 frame.dispose();
                VentanaBienvenida ventana= new VentanaBienvenida();
              }
          });
@@ -243,8 +210,8 @@ import java.awt.Font;
           	
           		if(banderaManoA)
           		{
-          			addMouseMotionListener(controlador2);
-              		addMouseListener(controlador3);
+          			frame.addMouseMotionListener(controlador2);
+          			frame.addMouseListener(controlador3);
           		}
           		  
           		banderaManoA= false;
@@ -253,7 +220,7 @@ import java.awt.Font;
           		banderaClick=true;
           		desahabilitar();
           		 calculos.setText("");
-                removeMouseListener(controlador1);
+          		frame.removeMouseListener(controlador1);
                 miPanel.repaint();
           		miPanel.vaciar();
           		banderaCancelar= true;
@@ -273,14 +240,14 @@ import java.awt.Font;
           		contador=0;
           		if(banderaClick)
           		{
-          		addMouseListener(controlador1);
+          			frame.addMouseListener(controlador1);
           		}
           		banderaClick=false;
           		banderaManoA= true;
           		 desahabilitar();
           		 calculos.setText("");
-          	    removeMouseMotionListener(controlador2);
-          	    removeMouseListener(controlador3);
+          		frame.removeMouseMotionListener(controlador2);
+          		frame.removeMouseListener(controlador3);
           	    miPanel.repaint();
         		miPanel.vaciar();
         		banderaCancelar= true;
@@ -502,11 +469,11 @@ import java.awt.Font;
 		          {
 		        	  ejex2= ev.getX();
 		  	          ejey2=ev.getY();
-		  	          if(ejey2 < 499)
+		  	          if(ejey2 < 450)
 		  	          {
 		  	        	 habilitar();
 				        	
-			              repaint();
+		  	        	frame.repaint();
 			              contador=0;
 			              radio= distanciaEntreDosPuntos(ejex1, ejey1, ejex2, ejey2);
 			              System.out.println("radio original: "+ radio);
@@ -538,7 +505,7 @@ import java.awt.Font;
 		                 contador++;
 		                 ejex1= ev.getX();
 		 		         ejey1=ev.getY();
-		 		         if(ejey1 < 499)
+		 		         if(ejey1 < 450)
 		 		         {
 		 		            Graphics g = miPanel.getGraphics();
 		 			        g.setColor(Color.red);
@@ -630,7 +597,7 @@ public class MouseAlzado  implements  MouseMotionListener {
 		      {
 		    	   auxEjex1= ejex1;
 			        auxEjey1 = ejey1;
-		        if(auxEjey1 <= 490)
+		        if(auxEjey1 <= 450)
 		        {
 		        	    miPanel.vaciar();
 		        	    Graphics g = miPanel.getGraphics();
@@ -712,7 +679,7 @@ public class MouseAlzado  implements  MouseMotionListener {
             String radio2;
 		    ejex2= ev.getX();
 	        ejey2=ev.getY();
-	        if(ejey2 > 0 && ejey2 <499)
+	        if(ejey2 > 0 && ejey2 <450)
 	        {
 	        	if( ejex2 > 0 && ejex2 <1000)
 	        	{
