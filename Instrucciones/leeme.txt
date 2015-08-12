@@ -1,16 +1,18 @@
 1) En la carpeta "BD" se encuentra el backup de la base de datos a usar para este programa
    restauren ese backup en su pgAdmin III y crean una nueva base de datos y pongan como nombre a la base de datos "BDIngSoftware"
-2) importen el proyecto a eclipse, y en el paquete Clases abran la clase "Conexion".
-3) Dentro de la clase Conexion deben cambiar algunos parametros, para que el programa lea la BD. los cuales son los siguientes:
+ 2) importen el proyecto a eclipse, y en el paquete Clases abran la clase "Conexion".
+ 3) Dentro de la clase Conexion deben cambiar algunos parametros, para que el programa lea la BD. los cuales son los siguientes:
      * en la variable "user" y "contrasena" pongan el usuario  y la contraseña de su postgresql( en esa clase encontran como usuario postgres y contraseña fernando30 pero ese es mi login de phpadmin no la de ustedes).
       * ahora deben cambiar el localhost, el que trae por defecto postgresql es el 5432 entonces vayan a la variable "url" y en donde dice 5433 cambien por 5432 nada mas. (yo tengo 5433 debido a que tengo 2 versiones distintas de postgresql en mi maquina).
      * en la variable "database" si cuando hicieron el backup de la base de datos y pusieron el nombre BDIngSoftware no deben tener algun problema pero si pusieron otro nombre a la BD, entonces cambien la variable dataBase por el nombre de la BD con la cual hicieron el backup.
-4) ahora delen click derecho al proyecto, vayan a propiedades (properties) y luego a java build patch , luego se ubican en la pestaña Librerias (Libraries).
-5) les aparecera muchas librerias con error, seleccionen todas esas librerias y den click en remove (eliminar) y luego den click en agregar jar's externos ( add external jar's).
-6) Luego deben buscar las librerias para que el programa funcione para eso vayan a la carpeta "Libs" que se encuentra en el proyecto mismo y seleccionen todas las librerias que encuentren y den click en ok para que todas las librerias queden dentro del proyecto.
-7) De todas las opciones del programa el único que no le va a funcionar es la opción de los reportes, no podrán generar un reporte pero eso no importa ahora.
+ 4) ahora delen click derecho al proyecto, vayan a propiedades (properties) y luego a java build patch , luego se ubican en la pestaña Librerias (Libraries).
+ 5) les aparecera muchas librerias con error, seleccionen todas esas librerias y den click en remove (eliminar) y luego den click en agregar jar's externos ( add external jar's).
+ 6) Luego deben buscar las librerias para que el programa funcione para eso vayan a la carpeta "Libs" que se encuentra en el proyecto mismo y seleccionen todas las librerias que encuentren y den click en ok para que todas las librerias queden dentro del proyecto.
+ 7) De todas las opciones del programa el único que no le va a funcionar es la opción de los reportes, no podrán generar un reporte debido a que hay imagenes y su archivo .jasper no va a encontrar dicha imagen xq se encuentra en mi pc.
 
-
+en la opcion de reportes de alumnos solo genera reportes por fechas y de todos los alumnos.
+en la opcion de reportes de actividades, genera reportes por fecha, por nombre del alumno y de todas las actividades.
+ 
 
 Usuario administrador: Freddy
 Contraseña administrador : 1234
